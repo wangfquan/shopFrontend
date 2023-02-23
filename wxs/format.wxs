@@ -1,0 +1,300 @@
+function money(money, fixed) {
+    fixed = undefined === fixed ? 2 : fixed;
+    money = parseFloat(money) / 100;
+    if (typeof money === 'number') {
+        return (money.toFixed(fixed))
+    } else {
+        return ('----')
+    }
+};
+
+function smallerThanMin(num, min) {
+    var num = parseFloat(num);
+    var min = parseFloat(min);
+    return (num < min)
+};
+
+function getMoney(good, fixed) {
+    fixed = undefined === fixed ? 2 : fixed;
+    var pickMoney = good.discount_price || good.price;
+    if (good.has_spec) {
+        pickMoney = good.min_price
+    };
+    if (good.flash_sale_price) {
+        pickMoney = good.flash_sale_price
+    };
+    pickMoney = parseFloat(pickMoney) / 100;
+    if (typeof pickMoney === 'number') {
+        return (pickMoney.toFixed(fixed))
+    } else {
+        return ('----')
+    }
+};
+
+function discount(money, discountMoney, digits) {
+    digits = undefined === digits ? 1 : digits;
+    var discount = ((discountMoney / money) * 10).toFixed(digits);
+    if (discount == 0.0) {
+        discount = 0.1
+    };
+    if (discount == 10.0) {
+        discount = 9.9
+    };
+    return (discount)
+};
+
+function accSub(arg1, arg2) {
+    var r1;
+    var r2;
+    var m;
+    var n;
+    var arr1 = arg1.toString().split('.');
+    var arr2 = arg2.toString().split('.');
+    if (arr1.length && arr1.length >= 2 && arr1[(1)].length) {
+        r1 = arr1[(1)].length
+    } else {
+        r1 = 0
+    };
+    if (arr2.length && arr2.length >= 2 && arr2[(1)].length) {
+        r2 = arr2[(1)].length
+    } else {
+        r2 = 0
+    };
+    m = Math.pow(10, Math.max(r1, r2));
+    n = r1 >= r2 ? r1 : r2;
+    return (((arg1 * m - arg2 * m) / m).toFixed(n))
+};
+
+function time(date, formatStr) {
+    arguments.length = arguments.length;
+    if (arguments.length === 1) {
+        date = getDate()
+    } else if (typeof date === 'string' || typeof date === 'number') {
+        date = getDate(date)
+    };
+    let;
+    zeroize = function zeroize(value, length) {
+        if (!length) {
+            length = 2
+        };
+        value = value + '';
+        let;
+        i = 0;
+        for (i = 0, zeros = ''; i < length - value.length; i++) {
+            zeros += '0'
+        };
+        return (zeros + value)
+    };
+    let;
+    aaa = getRegExp('\x22[^\x22]*\x22|\\x27[^\\x27]*\\x27|\\x5cb(?:d{1,4}|M{1,4}|yy(?:yy)?|([hHmstT])\\x5c1?|[lLZ])\\x5cb', 'g');
+    return (formatStr.replace(aaa, (function(__match) {
+        switch (__match) {
+            case 'd':
+                return (date.getDate());
+            case 'dd':
+                return (zeroize(date.getDate()));
+            case 'ddd':
+                return (['Sun', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat'][((nt_4 = (date.getDay()), null == nt_4 ? undefined : 'number' === typeof nt_4 ? nt_4 : "" + nt_4))]);
+            case 'dddd':
+                return (['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][((nt_5 = (date.getDay()), null == nt_5 ? undefined : 'number' === typeof nt_5 ? nt_5 : "" + nt_5))]);
+            case 'M':
+                return (date.getMonth() + 1);
+            case 'MM':
+                return (zeroize(date.getMonth() + 1));
+            case 'MMM':
+                return (['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][((nt_6 = (date.getMonth()), null == nt_6 ? undefined : 'number' === typeof nt_6 ? nt_6 : "" + nt_6))]);
+            case 'MMMM':
+                return (['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][((nt_7 = (date.getMonth()), null == nt_7 ? undefined : 'number' === typeof nt_7 ? nt_7 : "" + nt_7))]);
+            case 'yy':
+                let;
+                year = date.getFullYear() + '';
+                return (year.substring(2));
+            case 'yyyy':
+                return (date.getFullYear());
+            case 'h':
+                return (date.getHours() % 12 || 12);
+            case 'hh':
+                return (zeroize(date.getHours() % 12 || 12));
+            case 'H':
+                return (date.getHours());
+            case 'HH':
+                return (zeroize(date.getHours()));
+            case 'm':
+                return (date.getMinutes());
+            case 'mm':
+                return (zeroize(date.getMinutes()));
+            case 's':
+                return (date.getSeconds());
+            case 'ss':
+                return (zeroize(date.getSeconds()));
+            case 'l':
+                return (date.getMilliseconds());
+            case 'll':
+                return (zeroize(date.getMilliseconds()));
+            case 'tt':
+                return (date.getHours() < 12 ? 'am' : 'pm');
+            case 'TT':
+                return (date.getHours() < 12 ? 'AM' : 'PM');
+        }
+    })))
+};
+
+function name(item_names) {
+    var names = item_names.reduce((function(text, item) {
+        return (text === '' ? item : text + ' / ' + item)
+    }), '');
+    return (names)
+};
+
+function TakeawayTip(userType, totalGoods, supportOrderType, isSjt) {
+    var receipt = isSjt ? '经营账本' : '收款小账本';
+    if (userType === 'EN_USER_TYPE_BOSS') {
+        if (supportOrderType === 0) {
+            return ('设置经营模式')
+        } else if (totalGoods === 0) {
+            return ('添加商品')
+        }
+    } else {
+        if (supportOrderType === 0) {
+            return (('本店暂未完善经营模式等设置，可提醒老板前往「' + receipt + '」-「下单助手」-「营业设置」，打开经营方式，完成设置'))
+        } else if (totalGoods === 0) {
+            return ('本店暂未完善商品等设置')
+        }
+    }
+};
+var cutoffText = (function(text) {
+    return (text.length <= 8 ? text : text.substring(0, 8) + '...')
+});
+var calCartGoodProp = (function(checkedSpecItem, checkedPropArr) {
+    var specStr = '';
+    if (checkedSpecItem && checkedSpecItem.spec_value_name) {
+        specStr = checkedSpecItem.spec_value_name
+    };
+    var propStr = '';
+    if (checkedPropArr && checkedPropArr.length) {
+        propStr = checkedPropArr.map((function(item) {
+            return (item.prop_value_name)
+        })).join('/')
+    };
+    if (specStr && propStr) {
+        return (specStr + '/' + propStr)
+    };
+    return (specStr + propStr)
+});
+var isCheckedOption = (function(option, checkedProps) {
+    if (!checkedProps.length || !option.prop_value_id) {
+        return (false)
+    };
+    var exit = checkedProps.some((function(item) {
+        return (item.prop_value_id === option.prop_value_id)
+    }));
+    return (exit)
+});
+var getOrderProp = (function(spec, nameArr) {
+    var specStr = spec || '';
+    var propStr = '';
+    if (nameArr && nameArr.length) {
+        propStr = nameArr.join('/')
+    };
+    if (specStr && propStr) {
+        return (specStr + '/' + propStr)
+    };
+    return (specStr + propStr)
+});
+var getCurSkuPrice = (function(checkedSkuIndex, curGood, fixed) {
+    fixed = undefined === fixed ? 2 : fixed;
+    if (checkedSkuIndex > -1 && curGood.sku_item_list && curGood.sku_item_list.length) {
+        var skuItem = curGood.sku_item_list[((nt_8 = (checkedSkuIndex), null == nt_8 ? undefined : 'number' === typeof nt_8 ? nt_8 : "" + nt_8))] || ({});
+        if (skuItem.price) {
+            return ((parseFloat(skuItem.price) / 100).toFixed(fixed))
+        };
+        return ('')
+    };
+    return ('')
+});
+var formatTable = (function(table) {
+    if (table < 10) {
+        return ('0' + table)
+    } else {
+        return (table)
+    }
+});
+var getCurSkuStock = (function(checkedSkuIndex, curGood) {
+    if (checkedSkuIndex > -1 && curGood.sku_item_list && curGood.sku_item_list.length) {
+        var skuItem = curGood.sku_item_list[((nt_9 = (checkedSkuIndex), null == nt_9 ? undefined : 'number' === typeof nt_9 ? nt_9 : "" + nt_9))] || ({});
+        if (skuItem.sku_id) {
+            return (skuItem.stock_num)
+        };
+        return ('')
+    };
+    return ('')
+});
+var getConfirmState = (function(showPage, curGood, checkedProps, checkedSkuIndex) {
+    if (showPage === 'booking') {
+        if (curGood.prop_item_list && curGood.prop_item_list.length && checkedProps.length < curGood.prop_item_list.length) {
+            return ('noPass')
+        };
+        if (curGood.sku_item_list && curGood.sku_item_list.length && checkedSkuIndex === -1) {
+            return ('noPass')
+        }
+    };
+    return ('pass')
+});
+var getTagClass = (function(tag) {
+    return (({
+        EN_GOODS_TAG_NONE: '',
+        EN_GOODS_TAG_SPECIALTY: '',
+        EN_GOODS_TAG_NEW: 'tag-green',
+        EN_GOODS_TAG_HOT: 'tag-red',
+    })[((nt_10 = (tag), null == nt_10 ? undefined : 'number' === typeof nt_10 ? nt_10 : "" + nt_10))])
+});
+var getTagName = (function(tag) {
+    return (({
+        EN_GOODS_TAG_NONE: '',
+        EN_GOODS_TAG_SPECIALTY: '招牌',
+        EN_GOODS_TAG_NEW: '新品',
+        EN_GOODS_TAG_HOT: '热销',
+    })[((nt_11 = (tag), null == nt_11 ? undefined : 'number' === typeof nt_11 ? nt_11 : "" + nt_11))])
+});
+var getTagSrc = (function(tag) {
+    return (({
+        EN_GOODS_TAG_NONE: '',
+        EN_GOODS_TAG_SPECIALTY: 'https://wx.gtimg.com/resource/feuploader/202107/8ce09a61dd41afdb5d4ede3a26d0adef_172x172.png',
+        EN_GOODS_TAG_NEW: 'https://wx.gtimg.com/resource/feuploader/202107/e0fca5f3cbc43ff3949b7a0ca0cd05bb_172x172.png',
+        EN_GOODS_TAG_HOT: 'https://wx.gtimg.com/resource/feuploader/202107/1f1dc00beaba39274bd3e88a9b8773d1_172x172.png',
+    })[((nt_12 = (tag), null == nt_12 ? undefined : 'number' === typeof nt_12 ? nt_12 : "" + nt_12))])
+});
+var getOrderDiscount = (function(goodList, feeList, totalAmount) {
+    var originalFee = 0;
+    goodList.forEach((function(item) {
+        originalFee = originalFee + (item.total_original_price ? item.total_original_price : item.amount)
+    }));
+    feeList.forEach((function(item) {
+        if (item.fee_type === 'EN_ORDER_FEE_TYPE_ADD') {
+            originalFee = originalFee + item.fee_amount
+        }
+    }));
+    return (money(originalFee - totalAmount))
+});
+module.exports = ({
+    money: money,
+    getMoney: getMoney,
+    discount: discount,
+    time: time,
+    name: name,
+    cutoffText: cutoffText,
+    accSub: accSub,
+    smallerThanMin: smallerThanMin,
+    TakeawayTip: TakeawayTip,
+    calCartGoodProp: calCartGoodProp,
+    isCheckedOption: isCheckedOption,
+    getOrderProp: getOrderProp,
+    formatTable: formatTable,
+    getCurSkuPrice: getCurSkuPrice,
+    getCurSkuStock: getCurSkuStock,
+    getConfirmState: getConfirmState,
+    getTagClass: getTagClass,
+    getTagName: getTagName,
+    getTagSrc: getTagSrc,
+    getOrderDiscount: getOrderDiscount,
+});

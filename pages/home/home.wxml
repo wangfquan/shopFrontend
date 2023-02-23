@@ -1,0 +1,46 @@
+<view class="page">
+    <view class="hd-wrap {{headerExpand?animateExpandClass:'hd-wrap-collpse'}}" id="hd-wrap" style="{{headerExpand?'':'max-height: '+headerWrapHeight+'px;min-height: '+headerWrapHeight+'px;'}}">
+        <image class="hd-bcg" mode="aspectFill" src="{{headerData.shopPhoto}}"></image>
+        <!-- <navigation isShowCustomService="{{headerExpand&&!isMaster&&customServiceAuth}}" isShowReceiptEntance="{{headerExpand&&isMaster}}" isSjt="{{isSjt}}" navbarZindex="{{headerExpand?99999:-1}}" text=""></navigation> -->
+        <merchant-card bind:tapRightBtn="merchantTapRightBtn" canMiniapppay="{{canMiniapppay}}" headerData="{{headerData}}" headerExpand="{{headerExpand}}" isMaster="{{isMaster}}" isSjt="{{isSjt}}" labelArr="{{labelArr}}"></merchant-card>
+        <!-- <merchant-info activityInfo="{{actInfo}}" bind:setAnimateTime="setAnimateTime" headerExpand="{{headerExpand}}" isShow="{{haveFimTab}}" state="{{state}}"></merchant-info> -->
+    </view>
+    <view class="bd">
+        <view class="{{headerExpand?'tab':'tab-collopse'}}">
+            <tabbar bindonTabHide="onTabHide" bindonTabShow="onTabShow" selected="{{currentTabIndex}}" tabs="{{tabList}}"></tabbar>
+        </view>
+        <view class="service" id="service">
+            <view class="plugin-index-container">
+                <!-- <status text="{{pluginStatusTip}}" type="text" wx:if="{{!activeTab||!activedTabs[activeTab]}}"></status> -->
+                <view class="plugin-container">
+                  <!--style="display: {{activeTab==='EN_TAB_KEY_ANNOUNCE'?'':'none'}};" wx:if="{{activedTabs['EN_TAB_KEY_ANNOUNCE']}}" -->
+                    <!-- <announcement-list id="EN_TAB_KEY_ANNOUNCE" state="{{state}}"  ></announcement-list> -->
+                    <!-- wx:if="{{activedTabs['EN_TAB_KEY_SLF']}}" -->
+                    <takeaway id="EN_TAB_KEY_SLF" state="{{state}}" style="display: {{activeTab==='EN_TAB_KEY_SLF'?'':'none'}};" ></takeaway>
+                    <!-- <lottery id="EN_TAB_KEY_LOTTERY" state="{{state}}" style="display: {{activeTab==='EN_TAB_KEY_LOTTERY'?'':'none'}};" wx:if="{{activedTabs['EN_TAB_KEY_LOTTERY']}}"></lottery> -->
+                </view>
+            </view>
+        </view>
+        <view class="guide-apply {{animationClass}}" wx:if="{{showApplyGuide&&!isSjt}}">
+            <view class="guide-apply-text">{{applyGuideInfo.title||'我也想用此功能经营店铺。'}}</view>
+            <view bindtap="goApplyMinipro" class="guide-apply-link">
+                <view>{{applyGuideInfo.describe||'申请小程序'}}</view>
+            </view>
+            <view bindtap="closeGuideApply" class="guide-apply-close">
+                <view class="guide-apply-closeicon"></view>
+            </view>
+        </view>
+    </view>
+</view>
+<!-- <half-screen customStyle="{{true}}" show="{{showGuide}}">
+    <view class="guide_box" slot="custom_content">
+        <view class="guide_title">授权接收顾客咨询</view>
+        <view class="guide_content">开启后，顾客可通过小程序客服消息联系你咨询，消息将通过服务通知发送给你。</view>
+        <view class="guide_button">
+            <view bindtap="hideGuide" class="guide-button guide-button_cancel">暂不授权</view>
+            <view bindtap="goSetCustomServiceAuth" class="guide-button guide-button_confirm">去授权</view>
+        </view>
+    </view>
+</half-screen> -->
+<!-- <payment-half-screen bind:confirm="confirmPay" bindtap:close="hidePaymentHalfScreen" show="{{isShowPaymentHalfScreen}}" value="{{paymentAmount}}"></payment-half-screen>
+<announce></announce> -->

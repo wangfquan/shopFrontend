@@ -1,0 +1,14 @@
+var exchangeArrayItem = (function(list, index) {
+    list = undefined === list ? [] : list;
+    index = undefined === index ? 0 : index;
+    if (index + 1 > list.length - 1) {
+        throw;
+        new;
+        Error('array index is invalid')
+    };
+    list.splice(index + 1, 0, list.splice(index, 1)[(0)]);
+    return (list)
+});
+module.exports = ({
+    exchangeArrayItem: exchangeArrayItem,
+});

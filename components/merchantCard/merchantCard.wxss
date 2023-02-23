@@ -1,0 +1,438 @@
+.flex {
+  display: flex;
+}
+
+.aligin-center {
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.flex1 {
+  -webkit-box-flex: 1;
+  flex: 1;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.merchant,.merchant .pay,.merchant .shop__logo-img,.merchant .shop__t,.transition-expand {
+  transition: all .3s ease-in-out;
+}
+
+.merchant {
+  z-index: 10;
+}
+
+.merchant .shop {
+  -webkit-box-pack: justify;
+  -webkit-box-align: center;
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  padding: 20rpx 48rpx 48rpx;
+  width: 100%;
+}
+
+.merchant .shop__logo-img {
+  border-radius: 50%;
+  height: 112rpx;
+  margin-right: 24rpx;
+  width: 112rpx;
+}
+
+.merchant .shop__info {
+  -webkit-box-flex: 1;
+  flex: 1;
+}
+
+.merchant .shop__name {
+  margin-bottom: 8rpx;
+}
+
+.merchant .shop__t {
+  color: #fff;
+  font-size: 34rpx;
+  font-weight: 700;
+  line-height: 48rpx;
+}
+
+.merchant .shop__last-t {
+  display: inline-block;
+}
+
+.merchant .shop__more-icon {
+  border-radius: 50%;
+  display: inline-block;
+  height: 32rpx;
+  margin-left: 8rpx;
+  margin-top: 10rpx;
+  width: 32rpx;
+}
+
+.merchant .shop__signature {
+  -webkit-box-align: center;
+  align-items: center;
+  color: #fff;
+  font-size: 24rpx;
+  font-weight: 500;
+}
+
+.merchant .shop__label,.merchant .shop__signature {
+  display: flex;
+}
+
+.merchant .shop__label {
+  margin-top: 16rpx;
+}
+
+.merchant .shop__label__t {
+  background-color: hsla(0,0%,100%,.3);
+  border-radius: 4rpx;
+  color: #fff;
+  font-size: 24rpx;
+  margin-right: 8rpx;
+  padding: 4rpx 8rpx;
+}
+
+.merchant .shop__label-padding-left {
+  padding-left: 136rpx;
+}
+
+.merchant .shop .margintop0 {
+  margin-top: 0;
+}
+
+.merchant .pay {
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 86rpx;
+  justify-content: center;
+  opacity: 1;
+  padding-left: 64rpx;
+  position: relative;
+}
+
+.merchant .pay__icon {
+  height: 48rpx;
+  width: 48rpx;
+}
+
+.merchant .pay__text {
+  color: #fff;
+  font-size: 24rpx;
+}
+
+.merchant .pay:after {
+  background-color: hsla(0,0%,100%,.3);
+  content: "";
+  height: 70rpx;
+  left: 32rpx;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1rpx;
+}
+
+.merchant-collopse .pay,.merchant-collopse .shop__label,.merchant-collopse .shop__signature,.tansition-collpse {
+  opacity: 0;
+  transform: translateY(-40%);
+  transition: all .3s ease-in-out;
+}
+
+.merchant-collopse .shop {
+  -webkit-box-align: center;
+  align-items: center;
+  display: flex;
+  padding: 20rpx 32rpx 36rpx;
+  width: 100%;
+}
+
+.merchant-collopse .shop,.merchant-collopse .shop__logo-img {
+  transition: all .3s ease-in-out;
+}
+
+.merchant-collopse .shop__logo-img {
+  border-radius: 50%;
+  height: 24px;
+  margin-top: 2rpx;
+  width: 24px;
+}
+
+.merchant-collopse .shop__name {
+  -webkit-box-align: center;
+  align-items: center;
+  display: flex;
+}
+
+.merchant-collopse .shop__t {
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  color: #fff;
+  display: -webkit-box;
+  font-size: 34rpx;
+  font-weight: 700;
+  height: 48rpx;
+  line-height: 48rpx;
+  margin-left: 16rpx;
+  max-width: 300rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all .3s ease-in-out;
+}
+
+.merchant-collopse .shop__more-icon {
+  border-radius: 50%;
+  height: 24rpx;
+  margin-left: 8rpx;
+  width: 24rpx;
+}
+
+.merchant-collopse .shop__signature {
+  -webkit-box-align: center;
+  align-items: center;
+  color: #fff;
+  display: flex;
+  font-size: 24rpx;
+  font-weight: 500;
+  margin-left: 8rpx;
+  max-width: 406rpx;
+  position: absolute;
+}
+
+.merchant-collopse .shop__label {
+  display: flex;
+  margin-top: 16rpx;
+}
+
+.merchant-collopse .shop__label__t {
+  border-radius: 4rpx;
+  font-size: 24rpx;
+  margin-right: 8rpx;
+  padding: 4rpx 8rpx;
+}
+
+.merchant-collopse .pay {
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 86rpx;
+  justify-content: center;
+  padding-left: 64rpx;
+  position: fixed;
+  right: 48rpx;
+  top: 100rpx;
+}
+
+.merchant-collopse .pay__icon {
+  height: 48rpx;
+  width: 48rpx;
+}
+
+.merchant-collopse .pay__text {
+  color: #fff;
+  font-size: 24rpx;
+}
+
+.merchant-collopse .pay:after {
+  background-color: hsla(0,0%,100%,.3);
+  content: "";
+  height: 70rpx;
+  left: 32rpx;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1rpx;
+}
+
+.merchant-information__hd {
+  height: 32rpx;
+  padding: 40rpx 48rpx 36rpx;
+  text-align: center;
+}
+
+.merchant-information__bd_on {
+  padding-bottom: 128rpx;
+}
+
+.merchant-information__closeBtn {
+  height: 32rpx;
+  width: 80rpx;
+}
+
+.merchant-information__closeBtn:active {
+  transform: scale(.95);
+}
+
+.merchant-information__cells {
+  position: relative;
+}
+
+.merchant-information__cells:before {
+  border-bottom: 1rpx solid rgba(0,0,0,.1);
+  bottom: 0;
+  content: " ";
+  height: 1rpx;
+  left: 48rpx;
+  position: absolute;
+  right: 48rpx;
+  z-index: 2;
+}
+
+.merchant-information__cell {
+  -webkit-box-align: center;
+  align-items: center;
+  display: flex;
+  padding: 36rpx 48rpx 48rpx;
+  position: relative;
+}
+
+.merchant-information__cell:before {
+  border-bottom: 1rpx solid rgba(0,0,0,.1);
+  bottom: 0;
+  content: " ";
+  height: 1rpx;
+  left: 48rpx;
+  position: absolute;
+  right: 48rpx;
+  z-index: 2;
+}
+
+.merchant-information__connection {
+  -webkit-box-align: center;
+  align-items: center;
+  display: flex;
+  padding: 32rpx 48rpx;
+  position: relative;
+}
+
+.merchant-information__connection:before {
+  border-bottom: 1rpx solid rgba(0,0,0,.1);
+  bottom: 0;
+  content: " ";
+  height: 1rpx;
+  left: 120rpx;
+  position: absolute;
+  right: 48rpx;
+  z-index: 2;
+}
+
+.merchant-information__connection:last-child:before {
+  display: none;
+}
+
+.merchant-information__connection:active {
+  background-color: #e5e5e5;
+}
+
+.merchant-information__top {
+  padding-bottom: 48rpx;
+  padding-top: 20rpx;
+  position: relative;
+  text-align: center;
+}
+
+.merchant-information__top:before {
+  background-color: rgba(0,0,0,.1);
+  bottom: 0;
+  content: " ";
+  height: 1rpx;
+  left: 48rpx;
+  position: absolute;
+  right: 48rpx;
+  z-index: 2;
+}
+
+.merchant-information__avatar {
+  border-radius: 50%;
+  height: 96rpx;
+  width: 96rpx;
+}
+
+.merchant-information__shopName {
+  font-size: 34rpx;
+  font-weight: 500;
+  margin-top: 32rpx;
+}
+
+.merchant-information__sign {
+  color: rgba(0,0,0,.5);
+  font-size: 28rpx;
+  margin-top: 16rpx;
+}
+
+.merchant-connection__icon {
+  height: 48rpx;
+  margin-right: 24rpx;
+  width: 48rpx;
+}
+
+.merchant-connection__text {
+  -webkit-box-flex: 1;
+  color: rgba(0,0,0,.9);
+  flex: 1;
+  font-size: 34rpx;
+  line-height: 48rpx;
+  margin-right: 26rpx;
+}
+
+.merchant-connection__arrow {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAwCAYAAAALiLqjAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABQSURBVFhH7dDBCQAgDATBVGMLVmH/7Wgg+lJE9PCzA/nuQQwA7qQ4CQ+XOMlIbtcHGNli5AgjR76MPCcdkL6I+BTxKeJLHpTFOw/L4gAwmFVAcB3xqI/7UAAAAABJRU5ErkJggg==");
+  background-repeat: no-repeat;
+  background-size: 24rpx 48rpx;
+  height: 48rpx;
+  width: 24rpx;
+}
+
+.merchant-information__ft {
+  -webkit-box-align: center;
+  -webkit-box-pack: justify;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 80rpx 80rpx 128rpx;
+}
+
+.merchant-connection__item {
+  text-align: center;
+}
+
+.merchant-connection__item_hover .merchant-item__icon:after {
+  visibility: visible;
+}
+
+.merchant-item__icon {
+  height: 112rpx;
+  margin-bottom: 16rpx;
+  position: relative;
+  width: 112rpx;
+}
+
+.merchant-item__icon:after {
+  background-color: rgba(0,0,0,.1);
+  border-radius: 24rpx;
+  bottom: 0;
+  content: "";
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  visibility: hidden;
+  z-index: 2;
+}
+
+.merchant-item__text {
+  color: rgba(0,0,0,.9);
+  font-size: 24rpx;
+  line-height: 34rpx;
+}

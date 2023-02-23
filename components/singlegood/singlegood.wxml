@@ -1,0 +1,100 @@
+<view class="bd-menu__item {{good.goods_state==='EN_GOODS_STATE_NORMAL'?'':'bd-menu__item_off~'}} {{highLightNecessary&&catetype==='EN_CATEGORY_TYPE_REQUIRED'?'necessary':''}}">
+  <!-- 商品类型状态 -->
+  <view class="menu-item__hd">
+  <!-- 秒杀标识 -->
+    <image class="hd-item__marketingicon" src="https://wx.gtimg.com/resource/feuploader/202205/c6551c49c1ff802fcadf8fa5f3464055_256x256.png" wx:if="{{good.flash_sale_price}}"></image>
+    <!-- 商品图片 -->
+    <image bindtap="previewDetail" class="hd-item__img" data-cateindex="{{cateindex}}" data-good="{{good}}" data-goodindex="{{goodindex}}" mode="aspectFill" src="{{good.image_url||'https://wx.gtimg.com/resource/feuploader/202103/5c524e5732194c494bfdb7005058dcbf_192x192.png'}}"></image>
+    <!-- 商品状态 -->
+    <view class="hd-item__tips" wx:if="{{good.goods_state==='EN_GOODS_STATE_SOLD_OUT'}}">已售罄</view>
+    <view class="hd-item__tips" wx:if="{{good.goods_state==='EN_GOODS_STATE_OUT_OFF_SHELF'}}">已下架</view>
+    <block wx:if="{{good.tag_type!=='EN_GOODS_TAG_NONE'}}">
+      <view class="hd-item__tag {{format.getTagClass(good.tag_type)}}" wx:if="{{good.goods_state==='EN_GOODS_STATE_NORMAL'}}">{{format.getTagName(good.tag_type)}}</view>
+      <view class="hd-item__tag hd-item__tag_gray" wx:else>{{format.getTagName(good.tag_type)}}</view>
+    </block>
+  </view>
+  <!-- 商品详情模块 -->
+  <view class="menu-detail">
+    <!-- 商品点击事件触发 -->
+    <view bindtap="previewDetail" class="menu-detail__top" data-cateindex="{{cateindex}}" data-good="{{good}}" data-goodindex="{{goodindex}}">
+    <!-- 超长商品名称 -->
+      <rich-text class="menu-detail__name" nodes="{{good.highName}}" wx:if="{{good.highName}}"></rich-text>
+      <!-- 商品名称 -->
+      <view class="menu-detail__name" wx:else>{{good.name}}</view>
+      <!-- 商品库存、秒杀库存、活动库存 -->
+      <view class="menu-detail__info" wx:if="{{good.stock_num||good.flash_sale_stock_num||showSalesCount&&good.sales_count}}">
+          <!-- 库存数量展示逻辑 -->
+          <view class="menu-detail__info_item {{good.stock_num>0&&good.stock_num<=5?'menu-detail__info_item_ex':''}}" wx:if="{{!good.has_spec&&good.stock_num}}">
+          {{good.stock_num>0&&good.stock_num<=5?'仅':'还'}}剩{{good.stock_num}}份
+          </view>
+          <!-- 秒杀库存数量展示逻辑 -->
+          <view class="menu-detail__info_item {{good.flash_sale_stock_num>0&&good.flash_sale_stock_num<=5?'menu-detail__info_item_ex':''}}" wx:if="{{good.flash_sale_stock_num}}">
+          {{good.flash_sale_stock_num>0&&good.flash_sale_stock_num<=5?'仅':'还'}}剩{{good.flash_sale_stock_num}}份
+          </view>
+          <view class="menu-detail__info_item" wx:if="{{showSalesCount&&good.sales_count}}">月售{{good.sales_count}}{{good.sales_count>999?'+':''}}
+          </view>
+      </view>
+      <!--价格  -->
+      <view class="menu-detail__price">
+        <view class="menu-detail__price_num">￥{{format.getMoney(good)}}</view>
+        <view class="menu-detail__price_old" wx:if="{{good.flash_sale_price||good.discount_price}}">¥{{format.money(good.price)}}</view>
+        <view class="menu-detail__price_start" wx:if="{{good.has_spec}}">起</view>
+      </view>
+      <!-- 限购 -->
+      <view class="menu-detail__operation_info" wx:if="{{!good.has_spec&&good.discount_price}}">{{format.discount(good.price,good.discount_price)}}折 <text class="menu-detail__operation_limit" wx:if="{{good.discount_price_one_order_limit}}">限{{good.discount_price_one_order_limit}}份</text>
+      </view>
+      <!-- 秒杀折扣 -->
+      <view class="menu-detail__operation_info" wx:if="{{good.flash_sale_price}}">{{format.discount(good.price,good.flash_sale_price)}}折</view>
+      </view>
+      <!-- 正常商品增加减少购买数量-->
+      <view class="menu-detail__operation" wx:if="{{!good.flash_sale_price}}">
+      <!-- 正常状态商品 -->
+        <view class="menu-info__num" wx:if="{{good.goods_state==='EN_GOODS_STATE_NORMAL'}}">
+          <block wx:if="{{!good.need_choose_spec}}">
+            <view bindtap="minus" class="cell-ft__item" data-good="{{good}}" data-image="{{good.image_full_url}}" data-skuid="{{good.sku_id}}" data-spuid="{{good.spu_id}}" wx:if="{{good.num>0&&isOpening}}">
+              <view class="info-num__minus"></view>
+            </view>
+            <view class="info-num__mete" wx:if="{{good.num>0&&isOpening}}">{{good.num}}</view>
+            <view bindtap="add" class="cell-ft__item" data-good="{{good}}" data-skuid="{{good.sku_id}}" data-spuid="{{good.spu_id}}">
+              <view class="info-num__add"></view>
+            </view>
+          </block>
+          <view bindtap="chooseProp" class="cell-ft__item" data-cateindex="{{cateindex}}" data-good="{{good}}" data-goodindex="{{goodindex}}" data-skuid="{{good.sku_id}}" data-spuid="{{good.spu_id}}" wx:else>
+            <view class="info-num__format {{good.num&&isOpening?'info-num__format_selected':''}}">
+              <text class="info-num__format_dotted">{{good.num}}</text>
+            </view>
+          </view>
+        </view>
+      <!-- 下架售罄状态商品 -->
+        <view class="menu-info__num" wx:else>
+          <view class="info-num__format" wx:if="{{good.need_choose_spec}}"></view>
+          <block wx:else>
+            <view class="cell-ft__item" wx:if="{{good.num>0&&isOpening}}">
+              <view class="info-num__minus"></view>
+            </view>
+            <view class="info-num__mete" wx:if="{{good.num>0&&isOpening}}">{{good.num}}</view>
+            <view class="cell-ft__item">
+              <view class="info-num__add"></view>
+            </view>
+          </block>
+        </view>
+      </view>
+      <!-- 活动，秒杀商品增加减少购买数量-    -->
+      <view class="menu-detail__operation" wx:else>
+        <view class="menu-bd__marketing">
+          <view class="menu-marketing__btn menu-marketing__btn_off" wx:if="{{good.activity_info.is_joined}}"></view>
+          <view bindtap="add" class="menu-marketing__btn" data-good="{{good}}" data-skuid="{{good.sku_id}}" data-spuid="{{good.spu_id}}" wx:elif="{{good.num==0}}"></view>
+          <block wx:else>
+            <view bindtap="minus" class="cell-ft__item" data-good="{{good}}" data-skuid="{{good.sku_id}}" data-spuid="{{good.spu_id}}">
+              <view class="info-num__minus"></view>
+            </view>
+            <view class="info-num__mete">{{good.num}}</view>
+            <view bindtap="add" class="cell-ft__item" data-good="{{good}}" data-skuid="{{good.sku_id}}" data-spuid="{{good.spu_id}}">
+              <view class="info-num__add"></view>
+            </view>
+          </block>
+        </view>
+      </view>
+      </view>
+    </view>
+    <wxs module="format" src="../../wxs/format.wxs" />

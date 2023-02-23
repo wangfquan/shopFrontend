@@ -1,0 +1,20 @@
+{
+  "appid": "wx92a285e62df6ac2e",
+  "compileType": "miniprogram",
+  "libVersion": "2.30.2",
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "setting": {
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
+  },
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  }
+}

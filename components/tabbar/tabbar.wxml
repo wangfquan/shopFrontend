@@ -1,0 +1,20 @@
+<view class="tabbar-wrap">
+    <view class="tabbar {{fn.getTabbarClass(tabs.length)}}">
+        <view bindtap="onTapTab" class="tab-item {{index==selected?'tab-item-on':''}}" data-index="{{index}}" data-item="{{tab}}" wx:for="{{tabs}}" wx:for-item="tab" wx:key="index">
+            <view class="tab-label">{{tab.name}}</view>
+        </view>
+    </view>
+</view>
+<wxs module="fn">
+module.exports = ({
+    getTabbarClass: (function(val) {
+        if (val === 2) {
+            return ('tabbar-two-item')
+        };
+        if (val > 4) {
+            return ('tabbar-scroll-item')
+        };
+        return ('')
+    }),
+});
+</wxs>

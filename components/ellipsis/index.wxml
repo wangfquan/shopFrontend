@@ -1,0 +1,1 @@
+<view class="ellipsis" style="max-width:{{maxWidth}};-webkit-line-clamp:{{lineClamp}}">{{text}}</view>

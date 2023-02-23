@@ -1,0 +1,276 @@
+/* components/fim/fim.wxss */
+.container {
+  margin: 0 40rpx 48rpx;
+  max-height: 330rpx;
+}
+
+.fim__icon {
+  height: 40rpx;
+  margin-right: 8rpx;
+  width: 40rpx;
+}
+
+.click-hover:after {
+  background-color: rgba(0,0,0,.1);
+  border-radius: 8rpx;
+  content: "";
+  height: 100%;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.merchant-info-collpse {
+  animation: merchant-info-collpse .3s ease-in-out forwards;
+  transform: translateY(0);
+}
+
+@-webkit-keyframes merchant-info-collpse {
+  0% {
+      max-height: 320rpx;
+      opacity: 1;
+  }
+
+  to {
+      margin-top: -50rpx;
+      opacity: 0;
+  }
+}
+
+@keyframes merchant-info-collpse {
+  0% {
+      max-height: 320rpx;
+      opacity: 1;
+  }
+
+  to {
+      margin-top: -50rpx;
+      opacity: 0;
+  }
+}
+
+.merchant-info-expand {
+  animation: merchant-info-expand .3s ease-in-out forwards;
+  opacity: 0;
+  transform: translateY(-50rpx);
+}
+
+@-webkit-keyframes merchant-info-expand {
+  to {
+      max-height: 320rpx;
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+@keyframes merchant-info-expand {
+  to {
+      max-height: 320rpx;
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+.business {
+  padding: 32rpx;
+}
+
+.business__act-hd {
+  -webkit-box-align: center;
+  -webkit-box-pack: justify;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.business_hd-t {
+  background-image: url(https://wx.gtimg.com/resource/feuploader/202107/f48d1717532239075d73e29d81749848_80x80.png);
+  background-repeat: no-repeat;
+  background-size: 40rpx 40rpx;
+  color: #826a21;
+  font-size: 24rpx;
+  padding-left: 48rpx;
+}
+
+.business_hd-opt {
+  display: flex;
+}
+
+.business_hd-opt__icon {
+  height: 40rpx;
+  margin-right: 4rpx;
+  width: 40rpx;
+}
+
+.business_hd-opt-t {
+  color: #907744;
+  font-family: PingFang SC;
+  font-size: 24rpx;
+  font-weight: 500;
+}
+
+.consumer__not-fim {
+  -webkit-box-pack: justify;
+  background-color: #323232;
+  background-image: url(https://wx.gtimg.com/resource/feuploader/202107/699bddf50db967e118a751513332f64e_568x196.png);
+  background-position: 100% 42%;
+  background-repeat: no-repeat;
+  background-size: 284rpx 100rpx;
+  border-radius: 16rpx;
+  justify-content: space-between;
+  padding: 20rpx 20rpx 20rpx 32rpx;
+}
+
+.consumer__not-fim,.consumer__not-fim__left {
+  -webkit-box-align: center;
+  align-items: center;
+  display: flex;
+}
+
+.consumer__not-fim__left {
+  color: #f4db98;
+  font-size: 24rpx;
+  font-weight: 500;
+}
+
+.consumer__not-fim__btn {
+  background-color: #f4dd9a;
+  border-radius: 8rpx;
+  box-sizing: border-box;
+  color: #7f683a;
+  font-family: PingFang SC;
+  font-size: 28rpx;
+  font-weight: 500;
+  padding: 8rpx 16rpx;
+  position: relative;
+}
+
+.fim {
+  background: url(https://wx.gtimg.com/resource/feuploader/202107/c80f46cf55cec73a69d26169d992a33b_240x196.png) 100% 100% no-repeat,-webkit-linear-gradient(left,#f8e3a0,#f1d794);
+  background: url(https://wx.gtimg.com/resource/feuploader/202107/c80f46cf55cec73a69d26169d992a33b_240x196.png) 100% 100% no-repeat,linear-gradient(90deg,#f8e3a0,#f1d794);
+  background-size: 208rpx 168rpx,100%;
+  border-radius: 16rpx;
+  overflow: hidden;
+  position: relative;
+}
+
+.is-fim {
+  padding-bottom: 4rpx;
+}
+
+.is-fim__bcg {
+  bottom: 0;
+  height: 176rpx;
+  position: absolute;
+  right: -5%;
+  width: 215rpx;
+}
+
+.is-fim__hd {
+  -webkit-box-align: center;
+  -webkit-box-pack: justify;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 32rpx 32rpx 28rpx;
+  position: relative;
+  z-index: 10;
+}
+
+.is-fim__hd-hover:after {
+  background-color: rgba(0,0,0,.1);
+  content: " ";
+  height: 100%;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.is-fim__slogan {
+  -webkit-box-align: center;
+  align-items: center;
+  display: flex;
+}
+
+.is-fim__t {
+  color: #7f683a;
+  font-size: 24rpx;
+}
+
+.is-fim__more-icon {
+  height: 40rpx;
+  width: 20rpx;
+}
+
+.discount-list {
+  padding: 0 32rpx 32rpx;
+  position: relative;
+}
+
+.discount-list:after {
+  background-color: rgba(127,104,58,.3);
+  content: "";
+  height: 1rpx;
+  left: 32rpx;
+  position: absolute;
+  right: 32rpx;
+  top: -2rpx;
+}
+
+.discount-item__type {
+  -webkit-box-pack: justify;
+  -webkit-box-align: center;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 10rpx 0;
+}
+
+.discount-item__type:first-child {
+  padding-top: 32rpx;
+}
+
+.discount-item__type:last-child {
+  padding-bottom: 0;
+}
+
+.discount-item__type__name {
+  color: #7f683a;
+  font-family: PingFang SC;
+  font-size: 30rpx;
+  font-weight: 500;
+}
+
+.discount-item__type__got,.discount-item__type__process {
+  color: rgba(130,106,33,.7);
+  font-family: PingFang SC;
+  font-size: 24rpx;
+  font-weight: 400;
+}
+
+.discount-item__type__get {
+  background-color: #d8b372;
+  border-radius: 8rpx;
+  color: #63512e;
+  font-family: PingFang SC;
+  font-size: 28rpx;
+  font-weight: 500;
+  margin: 12rpx 0;
+  padding: 8rpx 16rpx;
+  position: relative;
+}
+
+.discount-item__type__get:first-child {
+  margin-top: 0;
+}
+
+.discount-item__type__get:last-child {
+  margin-bottom: 0;
+}

@@ -1,0 +1,89 @@
+<view class=" {{headerExpand?'merchant':'merchant-collopse'}}" style="margin-top:{{headerExpand?'0':'-44px'}}">
+    <view class="shop">
+        <view bindtap="openMerchantProfile" class="shop__info" hoverClass="{{headerData.mchIdentify?'click-hover':''}}">
+            <view class="flex aligin-center">
+                <view class="shop__logo">
+                    <image alt bindtap="openMerchantProfile" class="shop__logo-img" mode="aspectFill" src="{{headerData.shopHeadimg}}"></image>
+                </view>
+                <view class="flex-left flex1">
+                    <view class="shop__name">
+                        <view class="shop__t"> {{headerExpand&&headerData.mchIdentify?fn.getShopNamePre(headerData.shopName):headerData.shopName}}<view class="shop__last-t" wx:if="{{headerExpand&&headerData.mchIdentify}}">{{headerData.shopName[headerData.shopName.length-1]}}<image class="shop__more-icon" src="https://wx.gtimg.com/resource/feuploader/202107/f0b1203ed2b61aac9bc3555438c1378d_64x64.png"></image>
+                            </view>
+                        </view>
+                        <image class="shop__more-icon" src="https://wx.gtimg.com/resource/feuploader/202107/f0b1203ed2b61aac9bc3555438c1378d_64x64.png" wx:if="{{!headerExpand&&headerData.mchIdentify}}"></image>
+                    </view>
+                    <view class="shop__signature">
+                        <view class="shop__label margintop0" wx:if="{{!headerData.signInfo}}">
+                            <view class="shop__label__t" wx:for="{{labelArr}}" wx:key="index">{{item.text}}</view>
+                        </view>
+                        <ellipsis class="shop__signature__t" text="{{headerData.signInfo}}" wx:else></ellipsis>
+                    </view>
+                </view>
+                <view class="flex-right">
+                    <view catchtap="tapRightBtn" class="pay" hoverClass="click-hover" wx:if="{{canMiniapppay}}">
+                        <image class="pay__icon" src="https://wx.gtimg.com/resource/feuploader/202107/ddff89a684c8ea282ac6af98eec52ae0_96x96.png"></image>
+                        <view class="pay__text">{{isMaster?'收款码':'付款'}}</view>
+                    </view>
+                </view>
+            </view>
+            <view class="shop__label {{headerData.signInfo?'shop__label-padding-left':''}}" wx:if="{{labelArr.length&&headerExpand&&headerData.signInfo}}">
+                <view class="shop__label__t" wx:for="{{labelArr}}" wx:key="index">{{item.text}}</view>
+            </view>
+        </view>
+    </view>
+</view>
+<!-- <half-screen bind:hide="closeProfile" customStyle="{{true}}" show="{{showProfile}}">
+    <view class="custom_content" slot="custom_content">
+        <view class="merchant-information">
+            <view class="merchant-information__hd">
+                <image bindtap="closeProfile" class="merchant-information__closeBtn" src="https://act.weixin.qq.com/static/images/202010/2f70dd2c42eec550757f0b659805ce2e_120x48.png"></image>
+            </view>
+            <view class="merchant-information__bd {{isMaster?'':'merchant-information__bd_on'}}">
+                <view class="merchant-information__top">
+                    <image class="merchant-information__avatar" mode="aspectFill" src="{{headerData.shopHeadimg}}"></image>
+                    <view class="merchant-information__shopName">{{headerData.shopName}}</view>
+                    <view class="merchant-information__sign">{{headerData.signInfo}}</view>
+                </view>
+                <view class="merchant-information__cells">
+                    <view bindtap="clickPhone" class="merchant-information__connection" wx:if="{{headerData.shopPhone}}">
+                        <image class="merchant-connection__icon" src="https://act.weixin.qq.com/static/images/202008/54b3f736624d55fc9d32dd83b4358ffc_72x72.png" wx:if="{{headerData.shopPhone}}"></image>
+                        <view class="merchant-connection__text">{{headerData.shopPhone}}</view>
+                        <view class="merchant-connection__arrow"></view>
+                    </view>
+                    <view bindtap="clickWechat" class="merchant-information__connection" wx:if="{{headerData.shopWechat}}">
+                        <image class="merchant-connection__icon" src="https://act.weixin.qq.com/static/images/202008/dacaa3ba92a2a10b4ad1818cd214121f_72x72.png" wx:if="{{headerData.shopWechat}}"></image>
+                        <view class="merchant-connection__text">{{headerData.shopWechat}}</view>
+                        <view class="merchant-connection__arrow"></view>
+                    </view>
+                    <view bindtap="clickAddress" class="merchant-information__connection" wx:if="{{headerData.shopAddress&&headerData.shopLat&&headerData.shopLon}}">
+                        <image class="merchant-connection__icon" src="https://act.weixin.qq.com/static/images/202008/1897fd2e5269dd0371dc01d46bcbed25_72x72.png"></image>
+                        <view class="merchant-connection__text">{{headerData.shopAddress}}</view>
+                        <view class="merchant-connection__arrow"></view>
+                    </view>
+                </view>
+            </view>
+            <view class="merchant-information__ft" wx:if="{{isMaster}}">
+                <view bindtap="goProfile" class="merchant-connection__item" hoverClass="merchant-connection__item_hover" wx:if="{{!isSjt}}">
+                    <image class="merchant-item__icon" src="https://wx.gtimg.com/resource/feuploader/202108/792863ff2bb9f8ce537d63f6ea02bdfa_224x224.png"></image>
+                    <view class="merchant-item__text">编辑商家信息</view>
+                </view>
+                <view bindtap="previewQrcode" class="merchant-connection__item" hoverClass="merchant-connection__item_hover">
+                    <image class="merchant-item__icon" src="https://wx.gtimg.com/resource/feuploader/202108/eeafd45ea942fd510a96633c7f9aa5d3_224x224.png"></image>
+                    <view class="merchant-item__text">小程序码</view>
+                </view>
+                <view bindtap="goSetting" class="merchant-connection__item" hoverClass="merchant-connection__item_hover">
+                    <image class="merchant-item__icon" src="https://wx.gtimg.com/resource/feuploader/202108/9eb68ee38fb1fa68f89ed6623f3e0d94_224x224.png"></image>
+                    <view class="merchant-item__text">小程序设置</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</half-screen> -->
+<!-- <img-preview bind:tapImage="hidePreview" current="{{currentPreview}}" id="img-preview" show="{{isShowPreview}}" urls="{{urlsPreview}}"></img-preview> -->
+<wxs module="fn">
+module.exports = ({
+    getShopNamePre: (function(str) {
+        return (str && str.slice(0, -1))
+    }),
+});
+</wxs>

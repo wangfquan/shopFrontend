@@ -1,0 +1,104 @@
+<view class="takeaway" wx:if="{{getDataDone}}">
+    <view class="takeaway-newer" wx:if="{{totalGoods===0||supportOrderType===0}}">
+        <image class="takeaway-newer__img" src="https://wx.gtimg.com/resource/feuploader/202101/41d6b386e2745c5270739f618b9ed2ab_72x72.png"></image>
+        <!-- <view class="takeaway-newer__info">{{format.TakeawayTip(userType,totalGoods,supportOrderType,isSjt)}}</view> -->
+        <view bindtap="setNow" class="takeaway-newer__btn" wx:if="{{userType==='EN_USER_TYPE_BOSS'}}">立即设置</view>
+    </view>
+    <view class="takeaway-main {{curHeaderStatus===0?'takeaway-main_on':''}}" wx:else>
+        <view class="takeaway-main__hd">
+            <view class="takeaway-main__txt">{{feeText}}</view>
+            <view bindtap="goMyOrders" class="takeaway-main__btn">
+                <image class="takeaway-main__icon" src="https://act.weixin.qq.com/static/images/202009/1cd6ff389644944bd176ba41b0625825_48x48.png"></image>
+                <view class="takeaway-main__text">{{userType==='EN_USER_TYPE_BOSS'?'更多管理':'我的订单'}}</view>
+            </view>
+        </view>
+        <view class="bd-list__menu" id="container">
+            <block wx:if="{{!isNeedPage}}">
+                <view bindtap="manageGood" class="menu-title__right-fix" wx:if="{{userType==='EN_USER_TYPE_BOSS'&&!isGraySearch}}">
+                    <image class="menu-title-right__icon" src="https://act.weixin.qq.com/static/images/202009/ff51ec56fffa5faab0857e954b5d6e89_48x48.png"></image>
+                    <view class="menu-title-right__text">商品管理</view>
+                </view>
+                <view bindtap="searchGood" class="menu-title__right-fix" wx:if="{{isGraySearch}}">
+                    <image class="menu-title-right__icon" src="https://wx.gtimg.com/resource/feuploader/202112/913e3fc516298472f9d52273cda681a1_32x32.png"></image>
+                    <view class="menu-title-right__text">搜索</view>
+                </view>
+            </block>
+            <scroll-view class="bd-nav" scrollY="true" style="height:{{scrollViewHeight}}px">
+                <view bindtap="changeCate" class="list-hd__item {{curCateIndex===index?'list-hd__item_on':''}}" data-id="{{item.category_id}}" data-index="{{index}}" wx:for="{{shelf}}" wx:key="category_id">
+                    <view class="hd-sale__item" wx:if="{{item.category_type==='EN_CATEGORY_TYPE_FlASHSALE'}}">
+                        <image class="hd-marketing__img" src="https://wx.gtimg.com/resource/feuploader/202204/5181a3d4f909e6ad48afa5e9e961daff_300x68.png"></image>
+                    </view>
+                    <view class="hd-sale__item" wx:elif="{{item.category_type==='EN_CATEGORY_TYPE_DISCOUNT'}}">
+                        <view class="hd-sale__tag">惠</view>
+                        <view class="hd-sale__text">本店优惠</view>
+                    </view>
+                    <view class="hd-sale__text" wx:else> {{item.category_name}} </view>
+                </view>
+            </scroll-view>
+            <scroll-view scrollWithAnimation bindscroll="goodScroll" class="bd-menu" scrollIntoView="{{scrollCateId}}" scrollY="true" style="height:{{scrollViewHeight}}px" wx:if="{{!isNeedPage}}">
+                <view class="cate-block" wx:for="{{shelf}}" wx:for-index="cateindex" wx:key="category_id">
+                    <view id="cate-{{item.category_id}}">
+                        <view class="bd-menu__title" wx:if="{{item.goods_list.length>0}}">
+                            <view class="menu-title__left">{{item.category_name}}</view>
+                        </view>
+                        <view class="bd-menu__list" wx:for="{{item.goods_list}}" wx:for-index="goodindex" wx:for-item="good" wx:key="sku_id">
+                            <single-good bind:add="addFromList" bind:chooseProp="choosePropFromList" bind:minus="minusFromList" bind:previewDetail="previewDetail" cateindex="{{cateindex}}" catetype="{{item.category_type}}" good="{{good}}" goodindex="{{goodindex}}" highLightNecessary="{{highLightNecessary}}" isOpening="{{isOpening}}" shoppingCart="{{shoppingCart}}"></single-good>
+                        </view>
+                    </view>
+                </view>
+            </scroll-view>
+            <view bindtouchend="touchEnd" bindtouchmove="touchMove" bindtouchstart="touchStart" style="flex: 1" wx:if="{{isNeedPage}}">
+                <view class="bd-menu__top {{showPrevCate?'bd-menu__top_on':''}}">
+                    <view class="bd-menu__top_text">下拉查看上一分类</view>
+                    <image class="bd-menu__top_icon" src="https://wx.gtimg.com/resource/feuploader/202109/d4fa08f74283af1fe63e49a5a23820e4_88x56.png"></image>
+                </view>
+                <scroll-view bindscrolltolower="singleCateScroll" bindscrolltoupper="singleCateUpper" class="bd-menu" data-category_id="{{item.category_id}}" scrollY="{{true}}" style="height:{{scrollViewHeight}}px" wx:if="{{curCateIndex===cateindex}}" wx:for="{{shelf}}" wx:for-index="cateindex" wx:key="category_id">
+                    <view>
+                        <view class="bd-menu__title" id="cate-{{item.category_id}}">
+                            <view class="menu-title__left">{{item.category_name}}</view>
+                            <view bindtap="manageGood" class="menu-title__right" wx:if="{{userType==='EN_USER_TYPE_BOSS'&&!isGraySearch}}">
+                                <image class="menu-title-right__icon" src="https://act.weixin.qq.com/static/images/202009/ff51ec56fffa5faab0857e954b5d6e89_48x48.png"></image>
+                                <view class="menu-title-right__text">商品管理</view>
+                            </view>
+                            <view bindtap="searchGood" class="menu-title__right" wx:if="{{isGraySearch}}">
+                                <image class="menu-title-right__icon" src="https://wx.gtimg.com/resource/feuploader/202112/913e3fc516298472f9d52273cda681a1_32x32.png"></image>
+                                <view class="menu-title-right__text">搜索</view>
+                            </view>
+                        </view>
+                        <view class="bd-menu__list" wx:for="{{item.goods_list}}" wx:for-index="goodindex" wx:for-item="good" wx:key="sku_id">
+                            <!-- <single-good bind:add="addFromList" bind:chooseProp="choosePropFromList" bind:minus="minusFromList" bind:previewDetail="previewDetail" cateindex="{{cateindex}}" catetype="{{item.category_type}}" good="{{good}}" goodindex="{{goodindex}}" highLightNecessary="{{highLightNecessary}}" isOpening="{{isOpening}}" shoppingCart="{{shoppingCart}}"></single-good> -->
+                        </view>
+                        <view class="bd-menu__bottom" wx:if="{{!item.goods_list.length}}">该分类暂无商品</view>
+                        <view class="bd-menu__bottom" wx:elif="{{hasMoreData}}">加载中…</view>
+                        <view class="bd-menu__bottom" wx:if="{{!hasMoreData&&cateindex!==shelf.length-1}}">
+                            <image class="bd-menu__bottom_icon" src="https://wx.gtimg.com/resource/feuploader/202109/a786643bc94d4d3069c28207e7cbf825_88x56.png"></image>
+                            <view class="bd-menu__bottom_text">上拉查看下一分类</view>
+                        </view>
+                    </view>
+                </scroll-view>
+            </view>
+        </view>
+        <!-- <shopping-cart bind:addFromShoppingCart="addFromShoppingCart" bind:confirmDelete="confirmDelete" bind:minusFromShoppingCart="minusFromShoppingCart" bind:next="next" bind:switchShoppingCart="switchShoppingCart" business="{{business}}" id="bottom" isOpening="{{isOpening}}" isPreOrderTime="{{isPreOrderTime}}" lackNecessary="{{lackNecessary}}" shoppingCart="{{shoppingCart}}" supportOrderType="{{supportOrderType}}"></shopping-cart> -->
+    </view>
+</view>
+<view class="plugin-status" wx:else>
+    <view class="plugin-status-text">商家商品加载中…</view>
+</view>
+<!-- <takeaway-share id="singleshare" shareGood="{{[curGood]}}" shareType="{{curGood.flash_sale_price?'flashsaleSingle':curGood.discount_price&&!curGood.has_spec?'discountSingle':'recommendSingle'}}" showShareCard="{{true}}"></takeaway-share>
+<takeaway-share merchantAvatar="{{merchantAvatar}}" merchantName="{{merchantName}}" shareGood="{{[curGood]}}" shareText="{{singleShareText}}" shareType="{{curGood.flash_sale_price?'flashsaleSingle':curGood.discount_price&&!curGood.has_spec?'discountSingle':'recommendSingle'}}" showShareMask="{{showShareSingleMask}}"></takeaway-share>
+<takeaway-share goodType="{{shareGoodsInfo.type}}" id="miniproshare" shareGood="{{shareGoodsInfo.list}}" shareType="minipro" showShareCard="{{true}}" totalNum="{{totalGoods}}"></takeaway-share>
+<takeaway-share goodType="{{shareGoodsInfo.type}}" merchantAvatar="{{merchantAvatar}}" merchantName="{{merchantName}}" shareGood="{{shareGoodsInfo.list}}" shareText="{{shareText}}" shareType="minipro" showShareMask="{{showShareMiniproMask}}" totalNum="{{totalGoods}}"></takeaway-share>
+<good-detail bind:clickDetailDialogButton="clickDetailDialogButton" bind:hideGoodDetail="hideGoodDetail" curGood="{{curGood}}" isOpening="{{isOpening}}" shoppingCart="{{shoppingCart}}" showGoodDetail="{{showGoodDetail}}" showPage="{{showPage}}" wx:if="{{getDataDone}}"></good-detail>
+<soldout-dialog good="{{soldOutGood}}" showSoldOutDialog="{{showSoldOutDialog}}"></soldout-dialog>
+<base-half-screen bind:tapMask="closePreOrder" show="{{showPreOrder}}">
+    <view class="reserve" slot="custom_content">
+        <image class="reserve__img" src="https://gtimg.wechatpay.cn/resource/xres/img/202211/e746b6ca539a27777164b3649dc91103_90x72.png"></image>
+        <view class="reserve__bd">
+            <view>{{nextBusinessTime}}开始营业，可提前预订。</view>
+        </view>
+        <view bindtap="closePreOrder" class="reserve__ft">
+            <view class="btn">知道了</view>
+        </view>
+    </view>
+</base-half-screen> -->
+<!-- <wxs module="format" src="../../wxs/format.wxs" /> -->

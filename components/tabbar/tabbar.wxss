@@ -1,0 +1,59 @@
+.tabbar-wrap {
+  overflow: hidden;
+  overflow-x: scroll;
+}
+
+.tabbar {
+  -webkit-box-align: center;
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+  padding: 16px 16px 4px;
+}
+
+.tabbar .tab-item {
+  border-bottom: 2px solid transparent;
+  padding-bottom: 12px;
+}
+
+.tabbar .tab-item-on {
+  border-bottom: 2px solid rgba(0,0,0,.9);
+}
+
+.tabbar .tab-item-on .tab-label {
+  opacity: 1;
+}
+
+.tabbar .tab-label {
+  color: rgba(0,0,0,.9);
+  font-size: 14px;
+  font-weight: 600;
+  max-width: 60px;
+  opacity: .5;
+  overflow: hidden;
+  padding: 0 8px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tabbar-two-item {
+  -webkit-box-pack: center;
+  justify-content: center;
+}
+
+.tabbar-two-item .tab-item:first-child {
+  margin-right: 56px;
+}
+
+.tabbar-scroll-item {
+  display: -webkit-box;
+}
+
+.tabbar-scroll-item .tab-item {
+  margin-right: 20px;
+}
+
+.tabbar-scroll-item .tab-item .tab-item:last-child {
+  margin-right: 0;
+}

@@ -1,0 +1,8 @@
+{
+    "usingComponents": {
+        "ellipsis": "../ellipsis/index",
+        "img-preview": "../imgPreview/index",
+        "half-screen": "../half-screen/half-screen"
+    },
+    "component": true
+}

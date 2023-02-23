@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+
+    "takeaway": "../../components/takeaway/takeaway",
+    "tabbar": "../../components/tabbar/tabbar",
+    "merchant-card": "../../components/merchantCard/merchantCard"
+  }
+}

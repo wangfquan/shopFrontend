@@ -1,0 +1,117 @@
+<view class="container" id="list-container" style="height: {{contentHeight}}px;">
+    <block wx:if="{{list}}">
+        <!-- <status icon="https://act.weixin.qq.com/static/images/202006/c5795454165065fe35c02318f3f6c5d2_64x64.png" type="icon-text" wx:if="{{!list.length}}">
+            <view class="status-text-entry-container" slot="custom_content"> 暂无历史动态 <block wx:if="{{state.isMaster}}">，<view bindtap="releaseAnno" class="status-text-entry">发布新动态</view>
+                </block>
+            </view>
+        </status> -->
+        <scroll-view bindrefresherrefresh="onContentRefresh" bindscroll="onContentScroll" bindscrolltolower="onContentReachBottom" class="announcement-scroll-view {{isCollapsed?'container-collapsed':''}}" refresherEnabled="true" refresherTriggered="{{triggered}}" scrollY="true" style="height: {{contentHeight}}px;">
+            <view class="announcement-unit_container">
+                <view class="announcement-tweets__add" wx:if="{{state.isMaster}}">
+                    <view bindtap="releaseAnno" class="tweets-add__main">
+                        <view class="tewwts-add__icon"></view>
+                        <view class="tewwts-add__text">发布新动态</view>
+                        <view class="tewwts-add__arrow"></view>
+                    </view>
+                </view>
+                <view class="announcement-unit" wx:for="{{list}}" wx:key="key">
+                    <view class="announcement-unit__hd" wx:if="{{item.text}}">
+                        <text>{{item.text}}</text>
+                    </view>
+                    <view class="{{item.text?'':'announcement-unit__bd_padding'}}" wx:if="{{item.images&&item.images.length}}">
+                        <view bindtap="previewImage" class="announcement-unit__bd announcement-unit__bd_1" data-id="{{item.id}}" data-url="{{item.images[0]}}" wx:if="{{item.images.length===1}}">
+                            <image bindload="onImageLoad" class="announcement-unit_bd__img" data-id="{{item.id}}" mode="aspectFill" src="{{item.images[0]}}/0" style="width: {{item.images_width||sideLength}}rpx; height: {{item.images_height||sideLength}}rpx;"></image>
+                        </view>
+                        <view class="announcement-unit__bd announcement-unit__bd_ex {{item.images.length===4?'announcement-unit__bd_4':''}}" wx:else>
+                            <view bindtap="previewImage" data-id="{{item.id}}" data-url="{{img}}" wx:for="{{item.images}}" wx:for-item="img" wx:key="unique">
+                                <image class="announcement-unit_bd__img" mode="aspectFill" src="{{img}}/0"></image>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="announcement-unit__tail" wx:if="{{item.jump_link.show}}">
+                        <tail content="{{item.jump_link.content}}" index="{{item.id}}" scene="{{item.jump_link.scene}}" tapTailType="{{TAP_TAIL_TYPE.MINI_APP}}" type="{{item.jump_link.type}}"></tail>
+                    </view>
+                    <view class="announcement-unit__ft">
+                        <view class="announcement-unit_ft__hd">{{item.beginTime}}</view>
+                        <view class="announcement-unit_ft__bd" wx:if="{{state.isMaster}}">{{item.show_count||0}}位顾客看过</view>
+                        <view bindtap="operateAnnouncement" class="announcement-unit_ft__ft" data-id="{{item.id}}" wx:if="{{state.isMaster}}"></view>
+                    </view>
+                </view>
+                <view class="announcement-loading" wx:if="{{!finish}}">
+                    <view class="announcement-loading__icon"></view>
+                    <view class="announcement-loading__text">加载中</view>
+                </view>
+                <view class="announcement-finish" wx:else>
+                    <view class="announcement-finish__text">已显示所有动态</view>
+                </view>
+                <view class="announcement-bottom-iPhoneX"></view>
+            </view>
+        </scroll-view>
+    </block>
+    <status text="动态内容加载失败" type="text" wx:elif="{{loadError}}"></status>
+    <status text="商家服务加载中…" type="text" wx:else></status>
+</view>
+<view class="dynamicHShare canvas" data-text="" data-type="text" wx:if="{{count!==0}}">
+    <image class="dynamicHShare__bgi canvas" data-mode="aspectFill" data-type="image" data-url="https://act.weixin.qq.com/static/images/202007/96d85897b07c37cffb743ea10b35acb0_2250x1803.png" mode="aspectFill" src="https://act.weixin.qq.com/static/images/202007/96d85897b07c37cffb743ea10b35acb0_2250x1803.png"></image>
+    <view class="dynamicHShare-main canvas" data-text="" data-type="text">
+        <image class="dynamicHShare__icon canvas" data-mode="aspectFill" data-type="image" data-url="https://act.weixin.qq.com/static/images/202007/e4006d6a6b6a8afb605c526594c494b8_72x72.png" mode="aspectFill" src="https://act.weixin.qq.com/static/images/202007/e4006d6a6b6a8afb605c526594c494b8_72x72.png"></image>
+        <view class="dynamicHShare__text dynamicHShare__text_on canvas" data-text="有{{count}}条商家动态" data-type="text"> 有{{count}}条商家动态 </view>
+    </view>
+</view>
+<view class="dynamicHShare canvas" data-text="" data-type="text" wx:else>
+    <view class="dynamicHShare-main canvas" data-text="" data-type="text">
+        <image class="dynamicHShare__icon canvas" data-mode="aspectFill" data-type="image" data-url="https://act.weixin.qq.com/static/images/202007/082bee06f2b4f3ee6e900201a76d6449_468x468.png" mode="aspectFill" src="https://act.weixin.qq.com/static/images/202007/082bee06f2b4f3ee6e900201a76d6449_468x468.png"></image>
+        <view class="dynamicHShare__text canvas" data-text="暂无发布商家动态" data-type="text">暂未发布商家动态</view>
+    </view>
+</view>
+<half-screen bind:confirm="hideHalfScreen" bind:hide="hideHalfScreen" confirmText="知道了" contentText="{{halfScreen.text}}" show="{{isShowHalfScreen&&halfScreen&&(halfScreen.title||halfScreen.text)}}" titleText="{{halfScreen.title}}"></half-screen>
+<block wx:if="{{isShowActionSheet}}">
+    <view bindtap="hideActionSheet" class="mask"></view>
+    <view class="actionsheet-share {{animationClassActionSheet?'actionsheet-share_on':''}}">
+        <view class="actionsheet-share__bd">
+            <view class="actionsheet-share__cells">
+                <button bindtap="showShareImgDialog" class="actionsheet-share__cell" hoverClass="actionsheet-share__cell_hover">生成分享图片</button>
+                <button bindtap="remove" class="actionsheet-share__cell actionsheet-share__cell_ex" hoverClass="actionsheet-share__cell_hover">删除</button>
+            </view>
+        </view>
+        <view class="actionsheet-share__ft">
+            <view bindtap="hideActionSheet" class="actionsheet-share__cancel">取消</view>
+        </view>
+    </view>
+</block>
+<block wx:if="{{isShowShareImgDialog}}">
+    <view catchtouchmove="stopPageScroll" class="mask"></view>
+    <view class="dialog-share">
+        <view class="dialog-share__bd">
+            <view class="dialog-share__title canvas" wx:if="{{annoActionSheet.textArray}}">
+                <view class="canvas" data-text="{{item}}" data-type="text" wx:for="{{annoActionSheet.textArray}}" wx:key="*this">{{item}}</view>
+            </view>
+            <view class="dialog-share__picture canvas {{annoActionSheet.images&&annoActionSheet.images.length?'dialog-share__picture'+annoActionSheet.images.length:'dialog-share__picture1'}}">
+                <block wx:if="{{annoActionSheet.images&&annoActionSheet.images.length}}">
+                    <view class="share-picture__item canvas" wx:for="{{annoActionSheet.images}}" wx:key="*this">
+                        <image class="dialog-share__img canvas" data-mode="aspectFill" data-type="image" data-url="{{item}}/0" mode="aspectFill" src="{{item}}/0"></image>
+                    </view>
+                </block>
+                <view class="share-picture__item canvas" wx:else>
+                    <image class="dialog-share__img canvas" data-type="image" data-url="https://act.weixin.qq.com/static/images/202008/f21b01eea25f009b8463ec39816915f2_981x981.png" mode="aspectFill" src="https://act.weixin.qq.com/static/images/202008/f21b01eea25f009b8463ec39816915f2_981x981.png"></image>
+                </view>
+            </view>
+            <view class="dialog-share__time canvas" data-text="{{annoActionSheet.time}}" data-type="text">{{annoActionSheet.time}}</view>
+            <view class="dialog-share__seperator canvas" data-type="text"></view>
+            <view class="dialog-share__info canvas">
+                <image class="share-info__avatar canvas" data-base64="{{true}}" data-mode="aspectFill" data-type="image" data-url="{{qrcode}}" mode="aspectFill" src="{{qrcode}}"></image>
+                <view class="share-info__bd canvas">
+                    <view class="share-info__note canvas">
+                        <view class="share-info__item canvas" data-text="{{shopName}}" data-type="text">{{shopName}}</view>
+                    </view>
+                    <view class="share-info__tips canvas" data-text="{{descQRCode}}" data-type="text">{{descQRCode}}</view>
+                </view>
+            </view>
+        </view>
+        <view class="dialog-share__ft">
+            <button bindtap="saveShareImg" class="dialog-share__down" hoverClass="none"></button>
+            <button bindtap="hideShareImgDialog" class="dialog-share__close" hoverClass="none"></button>
+        </view>
+    </view>
+</block>
+<!-- <canvas canvasId="canvas" class="share__canvas" style="width: {{optionShareImg.width*optionShareImg.picZoom}}px; height: {{optionShareImg.height*optionShareImg.picZoom}}px;"></canvas> -->
