@@ -1,0 +1,22 @@
+<view class="qrcode">
+    <!-- <navigation color="#ffffff" mode="2" text="收款二维码"></navigation> -->
+    <view class="qrcode-bd">
+        <view class="qrcode-main">
+            <image class="qrcode-bd__bgi" src="https://wx.gtimg.com/resource/feuploader/202012/cd40f234c2aee44149c5a5c49a606418_1363x1850.png"></image>
+            <view class="qrcode-bd__main">
+                <image class="qrcode-bd__code" src="{{recvQrcodeUrl}}"></image>
+                <image class="qrcode-bd__photo" src="{{shopImg}}"></image>
+                <view class="qrcode-bd__name">{{shopName}}</view>
+            </view>
+        </view>
+    </view>
+    <view class="qrcode-ft">
+        <button class="qrcode-ft__cell" hoverClass="qrcode-ft__cell_hover" openType="share">
+            <image class="qrcode-ft__icon" src="https://wx.gtimg.com/resource/feuploader/202107/be6d516eb635cb6210d3e0d67605bb36_48x48.png"></image>
+            <view class="qrcode-ft__text">转发收款码</view>
+            <view class="qrcode-ft__arrow"></view>
+        </button>
+    </view>
+</view>
+<canvas canvasId="qr" style="width: {{qrWidth}}px; height: {{qrHeight}}px; position: absolute; top: 0; left: -2000px;"></canvas>
+<!-- <announce></announce> -->

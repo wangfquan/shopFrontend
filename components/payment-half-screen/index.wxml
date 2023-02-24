@@ -1,0 +1,24 @@
+<view class="payment-halfScreen" wx:if="{{show}}">
+    <view bindtap="close" class="payment-halfScreen__mask"></view>
+    <view class="payment-halfScreen__main {{animationClassActionSheet?'payment-halfScreen__main_on':''}}">
+        <view class="payment-halfScreen__hd">
+            <image bindtap="close" class="payment-halfScreen__close" src="https://act.weixin.qq.com/static/images/201908/5b03a47f04a26899a84fc14b0666a91f.png"></image>
+            <view class="payment-halfScreen__title">向商家付款</view>
+        </view>
+        <view class="payment-halfScreen__info">
+            <view class="payment-halfScreen__tips">金额</view>
+            <view class="payment-halfScreen__number">
+                <view class="payment-halfScreen__unit">¥</view>
+                <view class="payment-halfScreen__price">
+                    <text class="payment-halfScreen__money" wx:if="{{value}}">{{value}}</text>
+                    <text class="payment-halfScreen__cursor"></text>
+                    <text class="payment-halfScreen__placeholder" wx:if="{{!value}}">输入金额</text>
+                </view>
+            </view>
+        </view>
+        <view class="payment-halfScreen__bd">
+            <keyboard bind:change="moneyChange" bind:confirm="confirm" confirmText="付款" show="{{true}}" value="{{value}}"></keyboard>
+        </view>
+        <view class="payment-halfScreen__ft"></view>
+    </view>
+</view>

@@ -1,6 +1,10 @@
 {
-  "component": true,
-  "usingComponents": {
-    "keyboard": "../../components/keyboard/index"
-  }
+    "backgroundColor": "#ffffff",
+    "backgroundColorTop": "#ededed",
+    "backgroundColorBottom": "#f6f6f6",
+    "navigationBarTextStyle": "black",
+    "component": true,
+    "usingComponents": {
+        "keyboard": "../../components/keyboard/index"
+    }
 }

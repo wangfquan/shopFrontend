@@ -1,138 +1,115 @@
-page {
-    background-color: #fff;
+.payment-halfScreen__mask {
+    background-color: rgba(0,0,0,.5);
     height: 100%;
-}
-
-.paying,page {
-    min-height: 100%;
-}
-
-.paying {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    flex-direction: column;
-}
-
-.paying,.paying-hd {
-    display: flex;
-}
-
-.paying-hd {
-    -webkit-box-align: center;
-    align-items: center;
-    background-color: #ededed;
-    background-color: #fff;
-
-    box-sizing: border-box;
-    height: 150rpx;
-    padding: 24rpx 32rpx 36rpx 46rpx;
-}
-
-.paying-hd__hd {
-    -webkit-box-flex: 1;
-    flex: 1;
-    margin-right: 16rpx;
-}
-
-.paying-hd__shopName {
-    color: rgba(0,0,0,.9);
-    font-size: 30rpx;
-    font-weight: 500;
-    line-height: 42rpx;
-}
-
-.paying-hd__nameText {
-    margin-left: 16rpx;
-}
-
-.paying-hd__userName {
-    color: rgba(0,0,0,.5);
-    font-size: 24rpx;
-    line-height: 34rpx;
-    margin-top: 4rpx;
-}
-
-.paying-hd__shopPictures {
-    border-radius: 50%;
-    flex-shrink: 0;
-    height: 84rpx;
-    width: 84rpx;
-}
-
-.paying-bd {
-    -webkit-box-flex: 1;
-    background-color: #fff;
-    border-radius: 20rpx 20rpx 0 0;
-    flex: 1;
-    margin-top: -10rpx;
-    padding: 32rpx 48rpx;
-}
-
-.paying-bd__info {
-    -webkit-box-align: center;
-    align-items: center;
-    display: flex;
-    padding-bottom: 8rpx;
-    position: relative;
-}
-
-.paying-bd__info:after {
-    border-bottom: 1rpx solid rgba(0,0,0,.1);
-    bottom: 0;
-    content: " ";
-    height: 1rpx;
     left: 0;
-    position: absolute;
-    right: 0;
-    z-index: 2;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999999;
 }
 
-.paying-bd__unit {
+.payment-halfScreen__main {
+    backface-visibility: hidden;
+    background-color: #fff;
+    border-radius: 24rpx 24rpx 0 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    position: fixed;
+    right: 0;
+    transform: translateY(100%);
+    transition: all .3s ease;
+    z-index: 99999999;
+}
+
+.payment-halfScreen__main_on {
+    transform: translate(0);
+}
+
+.payment-halfScreen__info {
+    padding: 32rpx 48rpx 72rpx;
+}
+
+.payment-halfScreen__tips {
+    color: rgba(0,0,0,.9);
+    font-size: 24rpx;
+    line-height: 34rpx;
+    margin-bottom: 32rpx;
+}
+
+.payment-halfScreen__number {
+    -webkit-box-align: start;
+    align-items: flex-start;
+    border-bottom: 1rpx solid rgba(0,0,0,.1);
+    display: flex;
+    padding-bottom: 14rpx;
+}
+
+.payment-halfScreen__unit {
     color: rgba(0,0,0,.9);
     font-family: WeChatSansSS;
     font-size: 60rpx;
     font-weight: 500;
-    line-height: 84rpx;
+    line-height: 62rpx;
 }
 
-.paying-bd__title {
-    color: rgba(0,0,0,.5);
-    font-size: 24rpx;
-    line-height: 34rpx;
-    margin-bottom: 16rpx;
-}
-
-.paying-bd__price {
+.payment-halfScreen__price {
+    -webkit-box-flex: 1;
     -webkit-box-align: center;
     align-items: center;
     display: flex;
+    flex: 1;
 }
 
-.paying-bd__number {
+.payment-halfScreen__money {
     color: rgba(0,0,0,.9);
     font-family: WeChatSansSS;
     font-size: 60rpx;
-    font-weight: 500;
-    line-height: 84rpx;
+    line-height: 62rpx;
 }
 
-.paying-bd__cursor {
+.payment-halfScreen__placeholder {
+    color: rgba(0,0,0,.3);
+    font-size: 44rpx;
+    line-height: 62rpx;
+}
+
+.payment-halfScreen__cursor {
     animation: cursorAni 1s ease-in 0s infinite;
     background-color: #07c160;
     border-radius: 40rpx;
-    display: inline-block;
     height: 54rpx;
     margin-right: 1rpx;
     width: 4rpx;
 }
 
-.paying-bd__tips {
-    color: rgba(0,0,0,.3);
-    font-size: 40rpx;
-    line-height: 56rpx;
+.payment-halfScreen__hd {
+    padding: 48rpx 32rpx;
+    position: relative;
+    text-align: center;
 }
 
-.paying-ft {
+.payment-halfScreen__close {
+    height: 48rpx;
+    left: 48rpx;
+    margin-top: -24rpx;
+    position: absolute;
+    top: 50%;
+    width: 48rpx;
+}
+
+.payment-halfScreen__title {
+    color: rgba(0,0,0,.9);
+    font-size: 34rpx;
+    font-weight: 500;
+    line-height: 48rpx;
+}
+
+.payment-halfScreen__bd {
+    padding: 8rpx 0 0;
+}
+
+.payment-halfScreen__ft {
     background: #f6f6f6;
     padding-bottom: calc(14rpx + env(safe-area-inset-bottom));
 }

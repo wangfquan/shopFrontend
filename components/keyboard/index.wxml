@@ -1,2 +1,11 @@
-<!--components/keyboard/index.wxml-->
-<text>components/keyboard/index.wxml</text>
+<view class="payment-keyboard">
+    <view class="payment-keyboard__number">
+        <view bindtap="keyTap" class="keyboard-item" data-key="{{item==='.'?'point':item}}" wx:for="{{numberArr}}" wx:key="*this">{{item}}</view>
+    </view>
+    <view class="payment-keyboard__btn">
+        <view bindtap="keyTap" class="keyboard-del" data-key="delete">
+            <image class="keyboard-del__img" src="https://wx.gtimg.com/resource/feuploader/202106/6a43890b522c62dadeb3e367d54faf84_36x28.png"></image>
+        </view>
+        <view bindtap="confirm" class="keyboard-pay {{confirmDisabled?'keyboard-pay_off':''}}" hoverClass="{{confirmDisabled?'':'keyboard-pay_hover'}}" style="background-color: {{confirmColor}}">{{confirmText}} </view>
+    </view>
+</view>

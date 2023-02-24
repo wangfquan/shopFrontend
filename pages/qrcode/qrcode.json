@@ -1,0 +1,8 @@
+{
+    "backgroundColor": "#ffffff",
+    "component": true,
+    "navigationBarTextStyle": "black",
+    "usingComponents": {
+        "navigation": "../../components/navigation/navigation"
+    }
+}

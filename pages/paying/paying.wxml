@@ -1,0 +1,26 @@
+<view class="paying">
+    <!-- <navigation color="#ededed" mode="2" text="付款"></navigation> -->
+    <view class="paying-hd">
+        <view class="paying-hd__hd">
+            <view class="paying-hd__shopName">付款给<text class="paying-hd__nameText">{{shopName}}</text>
+            </view>
+            <view class="paying-hd__userName">{{nickName}}</view>
+        </view>
+        <image class="paying-hd__shopPictures" mode="aspectFill" src="{{shopImg}}"></image>
+    </view>
+    <view class="paying-bd">
+        <view class="paying-bd__title">金额</view>
+        <view class="paying-bd__info">
+            <view class="paying-bd__unit">¥</view>
+            <view class="paying-bd__price">
+                <text class="paying-bd__number" wx:if="{{value}}">{{value}}</text>
+                <text class="paying-bd__cursor"></text>
+                <text class="paying-bd__tips" wx:if="{{!value}}">输入金额</text>
+            </view>
+        </view>
+    </view>
+    <view class="paying-ft">
+        <keyboard bind:change="moneyChange" bind:confirm="confirm" confirmText="确定" show="{{true}}" value="{{value}}"></keyboard>
+    </view>
+</view>
+<!-- <announce></announce> -->

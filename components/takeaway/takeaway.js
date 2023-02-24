@@ -12,8 +12,23 @@ Component({
       }
   },
   data: {
+    // 店铺营业时间信息等
+    business:{
+      openSwitch:!0,//店铺是否营业
+      isInBusinessHours:"",
+      businessNum:5,//小于3显示营业时间，大于3缩略显示营业时间
+      businessTip:"08:00-18:00",
+      briefTip:"说明详情"
+    },
+    // 是否在营业时间
+    isPreOrderTime:!0,
+    // 购物车商品是否能够提交支付
+    lackNecessary:!1,
+    // 购物车列表
+    shoppingCart: [{}],
     scrollCateId:"",
-    isOpening:!1,
+    // 是否在营业中
+    isOpening:!0,
     curCateIndex:0,
     shelf:[
       {
@@ -458,13 +473,19 @@ Component({
   },
   attached: function() {
     console.log(112)
-    this.calScrollHeight()
+
       // this.init(), this.registerListeners();
   },
   detached: function() {
       // g.default.reportEvent("takeaway-detached"), this.updateHistory(), this.removeListeners(), 
       // l.default.clearPic(), r.takeaway.tableNo = void 0, (0, d.clearTabInfo)();
   },
+  ready: function() {
+    console.log(2)
+    this.calScrollHeight()
+    // g.default.reportEvent("takeaway-detached"), this.updateHistory(), this.removeListeners(), 
+    // l.default.clearPic(), r.takeaway.tableNo = void 0, (0, d.clearTabInfo)();
+},
   methods: {
       init: function() {
           // var e = this;
@@ -538,9 +559,25 @@ Component({
           // });
       },
       calScrollHeight: function() {
-      
-
-          var e = this, t = this.selectComponent("#bottom");
+    
+          var e = this, 
+          // t = this.selectComponent("#bottom");
+          t = 0;
+          
+          wx.createSelectorQuery().in(e).select('#bottom').boundingClientRect(function(rect){
+            console.log(rect)
+            if(rect){
+              t =rect.width
+            }
+            // rect.id      // 节点的ID
+            // rect.dataset // 节点的dataset
+            // rect.left    // 节点的左边界坐标
+            // rect.right   // 节点的右边界坐标
+            // rect.top     // 节点的上边界坐标
+            // rect.bottom  // 节点的下边界坐标
+            // rect.width   // 节点的宽度
+            // rect.height  // 节点的高度
+          }).exec()
           // t && c.default.getBottomHeight(this.data, t).then(function(t) {
             var a = wx.getSystemInfoSync().screenHeight || 0; 
               wx.createSelectorQuery().in(e).select("#container").boundingClientRect(function(o) {
@@ -991,6 +1028,7 @@ Component({
           //     });
           // });
       },
+      // 回调已选择好商品触发
       next: function() {
           // var e = this;
           // this.data.shoppingCart.length && (this.data.lackNecessary ? this.goNecessary() : (wx.setStorage({

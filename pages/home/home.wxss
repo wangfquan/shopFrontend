@@ -1,5 +1,7 @@
 @import "../../components/tabbar/tabbar.wxss";
 @import "../../components/takeaway/takeaway.wxss";
+@import "../../components/payment-half-screen/index.wxss";
+@import "../../components/shoppingcart/index.wxss";
 
 .page {
   -webkit-box-orient: vertical;

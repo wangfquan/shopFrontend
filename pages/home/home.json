@@ -1,6 +1,8 @@
 {
   "usingComponents": {
-
+    "payment-half-screen": "../../components/payment-half-screen/index",
+    "half-screen": "../../components/half-screen/half-screen",
+    "status": "../../components/status/status",
     "takeaway": "../../components/takeaway/takeaway",
     "tabbar": "../../components/tabbar/tabbar",
     "merchant-card": "../../components/merchantCard/merchantCard"

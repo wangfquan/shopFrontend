@@ -3,6 +3,8 @@
     "pages/home/home",
     "pages/index/index",
     "pages/logs/logs",
+    "pages/qrcode/qrcode",
+    "pages/shop/detail",
     "pages/paySuccess/paySuccess",
     "pages/paying/paying"
   ],

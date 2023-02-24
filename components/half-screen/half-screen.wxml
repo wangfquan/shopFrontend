@@ -1,2 +1,37 @@
-<!--components/half-screen/half-screen.wxml-->
-<text>components/half-screen/half-screen.wxml</text>
+<view bindtap="hide" catchtouchmove="preventTouchMove" class="mask" style="visibility: {{showMask?'visible':'hidden'}}" wx:if="{{show||animationClass}}">
+    <view catchtap="innerClick" class="" hoverClass="none">
+        <view bind:transitionend="changeMaskDisplay" class="receiptSheetDialog {{animationClass}}">
+            <view class="receiptSheetDialog-hd {{titleIcon?'receiptSheetDialog-hd_ex':''}}" wx:if="{{titleIcon||titleTextArray.length||titleText||titleInfo}}">
+                <image class="receiptSheetDialog-hd__icon" src="{{titleIcon}}" wx:if="{{titleIcon}}"></image>
+                <view class="receiptSheetDialog-hd__content">
+                    <image bindtap="clickOperateArea" class="receiptSheetDialog-hd__opt" src="{{operateAction==='close'?'https://act.weixin.qq.com/static/images/201908/5b03a47f04a26899a84fc14b0666a91f.png':'https://act.weixin.qq.com/static/images/201908/485ba9977fa8ce882c3ca01e27ddabfb.png'}}" wx:if="{{showOperateArea}}"></image>
+                    <view class="receiptSheetDialog-hd__text" wx:if="{{titleTextArray.length>0}}"> {{titleTextArray[swiperCurrentIndex]}}</view>
+                    <view class="{{titleInfo?'hd-text__info':''}}" wx:else>
+                        <view class="receiptSheetDialog-hd__text">{{titleText}}</view>
+                        <view class="receiptSheetDialog-hd__info">{{titleInfo}}</view>
+                    </view>
+                </view>
+            </view>
+            <view class="{{customStyle?'':'receiptSheetDialog-bd'}}">
+                <view class="receiptSheetDialog-bd__img__wrap" wx:if="{{contentImage.length>0}}">
+                    <image class="receiptSheetDialog-bd__img" mode="{{imageMode}}" src="{{contentImage[0]}}" wx:if="{{contentImage.length==1}}"></image>
+                    <swiper autoplay="{{autoplay}}" bindchange="swiperIndexChange" class="receiptSheetDialog-bd__swiper" duration="{{duration}}" indicatorActiveColor="#efb600" indicatorColor="#d8d8d8" indicatorDots="{{indicatorDots}}" interval="{{interval}}" style="height: {{swiperHeight}}" wx:else>
+                        <swiper-item wx:for="{{contentImage}}" wx:key="{{index}}">
+                            <image class="receiptSheetDialog-swiper__img" mode="{{imageMode}}" src="{{item}}"></image>
+                        </swiper-item>
+                    </swiper>
+                </view>
+                <block wx:if="{{contentText||contentTextArray.length>0}}">
+                    <view class="receiptSheetDialog-bd__txt" wx:if="{{contentTextArray.length>0}}"> {{contentTextArray[swiperCurrentIndex]}}</view>
+                    <view class="receiptSheetDialog-bd__txt" wx:else>{{contentText}}</view>
+                </block>
+                <slot name="custom_content"></slot>
+            </view>
+            <view class="DialogPublic-ft {{isPhoneX?'DialogPublic-ft_adaptation':''}}" wx:if="{{cancelText||confirmText}}">
+                <button bindtap="clickCancel" class="DialogPublic-btn" hoverClass="DialogPublic-btn_hover" style="background-color: {{cancelBackgroundColor}}; color: {{cancelColor}};" wx:if="{{cancelText}}">{{cancelText}}</button>
+                <button bindtap="clickConfirm" class="DialogPublic-btn DialogPublic-btn_primary" hoverClass="DialogPublic-btn_hover" style="background-color: {{confirmBackgroundColor}}; color: {{confirmColor}};" wx:if="{{confirmText}}">{{confirmText}}</button>
+            </view>
+            <view class="DialogPublic-ft__empty {{isPhoneX?'DialogPublic-ft__empty_ex':''}}" wx:else></view>
+        </view>
+    </view>
+</view>

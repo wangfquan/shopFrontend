@@ -44,6 +44,9 @@ Component({
     },
     methods: {
         previewDetail: function(t) {
+            wx.navigateTo({
+              url: "/pages/paying/paying"
+            })
             // this.triggerEvent("previewDetail", {
             //     good: t.currentTarget.dataset.good,
             //     cateindex: t.currentTarget.dataset.cateindex,

@@ -1,0 +1,97 @@
+<view class="index-ft" id="bottom" 
+wx:if="{{shoppingNum||!business.openSwitch||business.openSwitch&&!business.isInBusinessHours&&!isPreOrderTime}}"
+> 
+    <view class="ft-hd" wx:if="{{isShowShoppingCart&&isOpening}}">
+        <view class="menu-sheet">
+            <view bindtap="switchShoppingCart" class="mask-takeaway"></view>
+            <view class="sheet-main">
+                <view class="sheet-hd">
+                    <view class="sheet-hd__hd">已选物品</view>
+                    <view bindtap="showDeleteConfirm" class="sheet-hd__bd">清空</view>
+                </view>
+                <scroll-view class="sheet-bd" scrollY="true">
+                    <view class="sheet-bd__cell" wx:for="{{shoppingCart}}" wx:for-item="good" wx:key="sku_id">
+                        <view class="sheet-bd__cell_main">
+                            <image class="sheet-cell__hd" mode="aspectFill" src="{{good.image_url||'https://act.weixin.qq.com/static/images/201905/6f6a490c865bf1344afe2814534a22fe.png'}}"></image>
+                            <image class="sheet-cell__hd_marketinngicon" src="https://wx.gtimg.com/resource/feuploader/202205/c6551c49c1ff802fcadf8fa5f3464055_256x256.png" wx:if="{{good.flash_sale_price}}"></image>
+                            <view class="sheet-cell__bd">
+                                <view class="sheet-cell__name">{{good.name}}</view>
+                                <view class="sheet-cell__attri" wx:if="{{good.checked_sku_item||good.checked_prop_item_list}}">{{format.calCartGoodProp(good.checked_sku_item,good.checked_prop_item_list)}}</view>
+                                <view class="sheet-bd__money">
+                                    <view class="bd-money__hd" wx:if="{{good.checked_sku_item}}">￥{{format.money(good.checked_sku_item.price)}}</view>
+                                    <view class="bd-money__hd" wx:else>￥{{format.getMoney(good)}}</view>
+                                    <view class="bd-money__bd" wx:if="{{good.discount_price&&!good.has_spec||good.flash_sale_price}}">￥{{format.money(good.price)}}</view>
+                                </view>
+                                <view class="bd-money__discount" wx:if="{{good.discount_price_one_order_limit}}">{{format.discount(good.price,good.discount_price)}}折 <text class="bd-money__discount_limit">限{{good.discount_price_one_order_limit}}份</text>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="sheet-cell__fts">
+                            <!-- <stock-module className="bd-money__stock" extraClassName="bd-money__stock_on" stockNum="{{good.stock_num}}" wx:if="{{!good.has_spec}}"></stock-module>
+                            <stock-module className="bd-money__stock" extraClassName="bd-money__stock_on" stockNum="{{format.getCurSkuPrice(good.checked_sku_item.sku_id,good)}}" wx:else></stock-module> -->
+                            <view class="sheet-cell__ft">
+                                <view bindtap="minusFromShoppingCart" class="cell-ft__item" data-index="{{index}}" data-skuid="{{good.sku_id}}" data-spuid="{{good.spu_id}}">
+                                    <view class="info-num__minus"></view>
+                                </view>
+                                <view class="info-num__mete">{{good.num}}</view>
+                                <view bindtap="addFromShoppingCart" class="cell-ft__item" data-index="{{index}}" data-skuid="{{good.sku_id}}" data-spuid="{{good.spu_id}}">
+                                    <view class="info-num__add {{good.flash_sale_price?'info-num__add-ext':''}}"></view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </scroll-view>
+            </view>
+        </view>
+    </view>
+    <view class="ft-bd" wx:if="{{shoppingNum&&isOpening}}">
+        <view class="ft-bd__main">
+            <view bindtap="switchShoppingCart" class="index-ft__hd">
+                <view class="ft-hd__num" wx:if="{{shoppingNum}}">
+                    <text>{{shoppingNum}}</text>
+                </view>
+            </view>
+            <view class="index-ft__bd">
+                <view class="ft-bd__hd">合计 <text class="ft-bd__money">￥{{format.money(shoppingPrice)}}</text>
+                </view>
+                <view class="ft-bd__bd" wx:if="{{!supportUnified&&supportDelivery&&minimumDeliveryAmount&&format.smallerThanMin(shoppingPrice,minimumDeliveryAmount)}}">
+                    <view class="ft-bd__item">差{{format.accSub( format.money(minimumDeliveryAmount),format.money(shoppingPrice) )}}元可配送</view>
+                    <view class="ft-bd__item" wx:if="{{supportPickup}}">支持自提</view>
+                    <view class="ft-bd__item" wx:elif="{{supportInstore}}">支持堂食</view>
+                </view>
+            </view>
+            <view bindtap="next" class="index-ft__ft {{shoppingCart.length?'':'index-ft__disable'}}" hoverClass="none">{{lackNecessary?'未点必选品':'选好了'}}</view>
+        </view>
+    </view>
+    <!-- 店铺休息有开放时间 -->
+    <view class="ft-shopClose" wx:if="{{business.openSwitch&&!business.isInBusinessHours&&!isPreOrderTime}}">
+        <image class="ft-shopClose__hd" src="https://act.weixin.qq.com/static/images/202007/542e97d4036ee9cc5f86b1539c84edec_84x87.png"></image>
+        <view class="ft-shopClose__bd">
+            <view class="shopClose-bd__title">店铺已休息，欢迎改日再来</view>
+            <view class="shopClose-bd__note" wx:if="{{business.businessNum<3}}">营业时间：{{business.businessTip}}</view>
+            <view class="shopClose-bd__moreTime {{showAllTime?'shopClose-bd__moreTime_on':''}}" wx:else>
+                <view class="shopClose-moreTime__bd" wx:if="{{showAllTime}}">营业时间：{{business.businessTip}}</view>
+                <view bindtap="showMoreTime" class="shopClose-moreTime__ft" wx:else>
+                    <view class="shopClose-moreTime__more">{{business.briefTip}}</view>
+                    <image class="shopClose-moreTime__icon" src="https://wx.gtimg.com/resource/feuploader/202201/78371c3cd07441f001b7f82e077f7f27_72x72.png"></image>
+                </view>
+            </view>
+        </view>
+    </view>
+    <!-- 店铺关闭 -->
+    <view class="ft-shopClose" wx:if="{{!business.openSwitch}}">
+        <image class="ft-shopClose__hd" src="https://act.weixin.qq.com/static/images/202007/aec2d4c4e38d9391523d15cb13942f3b_84x84.png"></image>
+        <view class="ft-shopClose__bd">
+            <view class="shopClose-bd__title">店铺已休息</view>
+            <view class="shopClose-bd__note">具体营业时间可联系商家咨询</view>
+        </view>
+    </view>
+</view>
+<!-- 清空购物车弹框 -->
+<view class="menu-empty mask" wx:if="{{isShowDeleteConfirm}}">
+    <view class="menu-empty__main">
+        <view bindtap="confirmDelete" class="menu-empty__confirm">确认清空购物车</view>
+        <view bindtap="hideDeleteConfirm" class="menu-empty__cancel">取消</view>
+    </view>
+</view>
+<wxs module="format" src="../../wxs/format.wxs" />

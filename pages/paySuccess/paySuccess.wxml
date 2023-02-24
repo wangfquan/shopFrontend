@@ -1,2 +1,26 @@
-<!--pages/paySuccess/paySuccess.wxml-->
-<text>pages/paySuccess/paySuccess.wxml</text>
+<view class="paySuccess" wx:if="{{amountShow}}">
+    <!-- <navigation color="#ffffff" isShowNavigateButton="{{false}}" mode="2"></navigation> -->
+    <view class="paySuccess-hd">
+        <image class="paySuccess-hd__icon" src="https://wx.gtimg.com/resource/feuploader/202105/ff4824eaa8fae3d83741a539cd259c3a_128x128.png"></image>
+        <view class="paySuccess-hd__text" wx:if="{{amountShow}}">已支付{{amountShow}}元</view>
+        <view class="paySuccess-hd__text" wx:else>已支付</view>
+    </view>
+    <view class="paySuccess-bd">
+        <view class="paySuccess-bd__cells" wx:if="{{type==='share'}}">
+            <view class="paySuccess-bd__cell">
+                <view class="paySuccess-cell__hd">收款方</view>
+                <view class="paySuccess-cell__bd">{{payInfo.shop_name}}</view>
+            </view>
+            <view class="paySuccess-bd__cell">
+                <view class="paySuccess-cell__hd">付款时间</view>
+                <view class="paySuccess-cell__bd">{{payTimeShow}}</view>
+            </view>
+        </view>
+    </view>
+    <view class="paySuccess-ft" wx:if="{{type==='success'}}">
+        <!-- <navigator bindtap="confirmClick" class="paySuccess-ft__btn" hoverClass="none" openType="exit" target="miniProgram" wx:if="{{needExit}}">完成</navigator> -->
+        <view bindtap="confirmClick" class="paySuccess-ft__btn" >完成</view>
+        <button class="paySuccess-ft__btn paySuccess-ft__btn_ex" hoverClass="none" openType="share">转发支付凭证</button>
+    </view>
+</view>
+<!-- <announce></announce> -->

@@ -1,2 +1,24 @@
-<!--components/navigation/navigation.wxml-->
-<text>components/navigation/navigation.wxml</text>
+<block wx:if="{{isShow}}">
+    <view class="navbar" style="{{'height: '+navigationBarHeight+';background-color:'+color+';z-index: '+navbarZindex}}">
+        <view style="{{'height: '+statusBarHeight}}"></view>
+        <view class="title-container">
+            <block wx:if="{{isShowNavigateButton}}">
+                <view bindtap="back" class="back" wx:if="{{back}}">
+                    <view class="image {{mode===1?'back-white':'back-black'}}"></view>
+                </view>
+                <view bindtap="backHome" class="home" wx:if="{{home}}">
+                    <view class="image {{mode===1?'home-white':'home-black'}}"></view>
+                </view>
+            </block>
+            <button bindcontact="handleContact" class="back no-button" openType="contact" wx:if="{{isShowCustomService}}">
+                <view class="image custom-service"></view>
+            </button>
+            <view bindtap="goReceipt" class="back" wx:if="{{isShowReceiptEntance}}">
+                <view class="image custom-sjt" wx:if="{{isSjt}}"></view>
+                <view class="image custom-receipt" wx:else></view>
+            </view>
+            <view class="title {{mode===1?'navbar-white':'navbar-black'}}">{{text}}</view>
+        </view>
+    </view>
+    <view style="width: 100%; {{'height: '+navigationBarHeight}}"></view>
+</block>

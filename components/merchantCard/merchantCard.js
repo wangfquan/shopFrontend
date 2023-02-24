@@ -106,8 +106,10 @@ Component({
             //     isShowPreview: !1
             // });
         },
+        // 付款/收款码点击事件
         tapRightBtn: function() {
-            // this.triggerEvent("tapRightBtn");
+          console.log("tapRightBtn")
+            this.triggerEvent("tapRightBtn");
         }
     }
 });

@@ -1,0 +1,26 @@
+.plugin-status {
+    position: absolute;
+    width: 750rpx;
+}
+
+.plugin-status-icon {
+    height: 64rpx;
+    left: 50%;
+    position: absolute;
+    top: 128rpx;
+    transform: translateX(-50%);
+    width: 64rpx;
+}
+
+.plugin-status-text {
+    -webkit-box-pack: center;
+    color: rgba(0,0,0,.3);
+    display: flex;
+    font-size: 28rpx;
+    justify-content: center;
+    padding-top: 128rpx;
+}
+
+.plugin-status-icon-text .plugin-status-text {
+    padding-top: 224rpx;
+}

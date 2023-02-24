@@ -78,7 +78,7 @@
                 </scroll-view>
             </view>
         </view>
-        <!-- <shopping-cart bind:addFromShoppingCart="addFromShoppingCart" bind:confirmDelete="confirmDelete" bind:minusFromShoppingCart="minusFromShoppingCart" bind:next="next" bind:switchShoppingCart="switchShoppingCart" business="{{business}}" id="bottom" isOpening="{{isOpening}}" isPreOrderTime="{{isPreOrderTime}}" lackNecessary="{{lackNecessary}}" shoppingCart="{{shoppingCart}}" supportOrderType="{{supportOrderType}}"></shopping-cart> -->
+        <shopping-cart bind:addFromShoppingCart="addFromShoppingCart" bind:confirmDelete="confirmDelete" bind:minusFromShoppingCart="minusFromShoppingCart" bind:next="next" bind:switchShoppingCart="switchShoppingCart" business="{{business}}" id="bottom" isOpening="{{isOpening}}" isPreOrderTime="{{isPreOrderTime}}" lackNecessary="{{lackNecessary}}" shoppingCart="{{shoppingCart}}" supportOrderType="{{supportOrderType}}"></shopping-cart>
     </view>
 </view>
 <view class="plugin-status" wx:else>

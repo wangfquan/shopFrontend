@@ -1,0 +1,9 @@
+<view class="plugin-status plugin-status-icon-text" wx:if="{{type==='icon-text'}}">
+    <image class="plugin-status-icon" src="{{icon}}"></image>
+    <view class="plugin-status-text">{{text}}</view>
+    <slot name="custom_content"></slot>
+</view>
+<view class="plugin-status" wx:elif="{{type==='text'}}">
+    <view class="plugin-status-text">{{text}}</view>
+    <slot name="custom_content"></slot>
+</view>
