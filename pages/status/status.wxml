@@ -1,0 +1,534 @@
+<!-- <navigation color="#f5f5f5" mode="2"></navigation> -->
+<view class="status" wx:if="{{done}}">
+    <view class="status-customer">
+        <view class="status-hd {{payed||state==='SHELF_ORDER_STATE_CONFIRM'?'':'status-hd_payoff'}}">
+            <view class="status-hd__hd">
+                <view class="status-hd__icon_status"></view>
+                <view class="status-hd__right">
+                    <view class="status-hd__title">{{status_text}}<text class="hd-order__money">￥{{format.money(total_amount)}}</text>
+                    </view>
+                    <view class="status-hd__note">{{status_tips}}</view>
+                </view>
+                <image class="status-hd__doneicon" src="https://act.weixin.qq.com/static/images/202011/2a28005e1cbb580e401edc71e8a8e450_228x228.png" wx:if="{{state==='SHELF_ORDER_STATE_CONFIRM'}}"></image>
+            </view>
+        </view>
+    </view>
+    <view class="status-bd">
+        <view class="status-bd__main">
+          <!-- 到点自提 -->
+            <block wx:if="{{order_type==='ORDER_TYPE_PICKUP'}}">
+              <!-- 自提信息 -->
+                <view class="status-title__nums">
+                    <view class="status-title__bd">
+                        <image class="title-bd__icon title-bd__iconext" src="https://gtimg.wechatpay.cn/resource/xres/img/202210/fe7c4175278efec524105a1e2aa7f131_174x60.png" wx:if="{{is_boss}}"></image>
+                        <image class="title-bd__icon" src="https://gtimg.wechatpay.cn/resource/xres/img/202210/fa12144e4861003acf9735ad7336951e_102x60.png" wx:else></image>
+                    </view>
+                    <view class="status-title__num">
+                        <view class="status-title__hd">{{daily_seq_code||''}}</view>
+                        <view class="title-bd__info">{{pickup_time_text}}自提</view>
+                    </view>
+                </view>
+                <!-- 对老板展示-顾客信息 -->
+                <view class="status-userInfo" wx:if="{{is_boss}}">
+                    <image class="status-userInfo__avatar" src="{{wx_head_img_url}}"></image>
+                    <view class="status-userInfo__name">{{wx_nickname}}</view>
+                    <view class="status-userInfo__info">
+                        <view bindtap="copyWechatName" class="status-userInfo__btn">复制微信名</view>
+                        <view bindtap="makePhoneCall" class="status-userInfo__btn_ex">手机联系</view>
+                    </view>
+                </view>
+                <!-- 对顾客展示-商家信息 -->
+                <view class="status-hd__address" wx:else>
+                    <view bindtap="showMap" class="hd-address__title">
+                        <view class="address-title__text">商家信息</view>
+                    </view>
+                    <view bindtap="showMap" class="hd-address__address" wx:if="{{mch_store_address}}"> {{mch_store_address}} <text class="hd-address__arrow"></text>
+                    </view>
+                    <view class="status-hd__merchantInfo_ex" wx:if="{{mch_contact_phone}}">
+                        <view class="hd-merchantInfo__title">商家电话</view>
+                        <view bindtap="makePhoneCall" class="hd-merchantInfo__note">{{mch_contact_phone}}</view>
+                    </view>
+                    <view class="status-hd__merchantInfo_ex" wx:if="{{mch_contact_wechat}}">
+                        <view class="status-metchantInfo__name">商家微信号</view>
+                        <view class="status-merchantInfo__wechat">{{mch_contact_wechat}}</view>
+                        <view bindtap="copyWechatId" class="status-merchantInfo__copy">复制</view>
+                    </view>
+                </view>
+            </block>
+            <!-- 商家外送 -->
+            <block wx:if="{{order_type==='ORDER_TYPE_DELIVERY'}}">
+                <view class="status-title__nums">
+                    <view class="status-title__bd">
+                        <image class="title-bd__icon title-bd__iconext" src="https://gtimg.wechatpay.cn/resource/xres/img/202210/ea06ea95b0c53f63fea0d2968df76e6d_174x60.png" wx:if="{{is_boss}}"></image>
+                        <image class="title-bd__icon" src="https://gtimg.wechatpay.cn/resource/xres/img/202210/fad51a4cf006f854c3fc48ad80cf48bf_102x60.png" wx:else></image>
+                    </view>
+                    <view class="status-title-take status-title__num">
+                        <view class="status-title__hd">{{daily_seq_code||'----'}}</view>
+                    </view>
+                </view>
+
+                <view class="status-userInfo" wx:if="{{is_boss}}">
+                    <image class="status-userInfo__avatar" src="{{wx_head_img_url}}"></image>
+                    <view class="status-userInfo__name">{{wx_nickname}}</view>
+                    <view class="status-userInfo__info">
+                        <view bindtap="copyWechatName" class="status-userInfo__btn">复制微信名</view>
+                        <view bindtap="makePhoneCall" class="status-userInfo__btn_ex">手机联系</view>
+                    </view>
+                </view>
+                <!-- 对顾客展示-商家信息 -->
+                <view class="status-hd__merchantInfo" wx:if="{{!is_boss&&mch_contact_phone}}">
+                    <view class="hd-merchantInfo__title">商家电话</view>
+                    <view bindtap="makePhoneCall" class="hd-merchantInfo__note">{{mch_contact_phone}}</view>
+                </view>
+                <view class="status-userInfo" wx:if="{{!is_boss&&mch_contact_wechat}}">
+                    <view class="status-metchantInfo__name">商家微信号</view>
+                    <view class="status-merchantInfo__wechat">{{mch_contact_wechat}}</view>
+                    <view bindtap="copyWechatId" class="status-merchantInfo__copy">复制</view>
+                </view>
+                <view class="status-hd__address">
+                    <view class="hd-address__title">
+                        <view class="address-title__text">{{is_boss?'外送地址':'收货地址'}}</view>
+                        <view bindtap="copyAddress" class="address-title__copy" wx:if="{{is_boss}}">复制地址</view>
+                    </view>
+                    <view class="hd-address__address">{{address.address}}</view>
+                    <view class="hd-address__main">
+                        <view class="hd-address__name">{{address.name}}</view>
+                        <view class="hd-address__phone">{{address.phone}}</view>
+                    </view>
+                </view>
+            </block>
+            <!-- 堂食点餐 -->
+            <block wx:if="{{order_type==='ORDER_TYPE_INSTORE'}}">
+                <view class="status-title__nums">
+                    <view class="status-title__bd">
+                        <image class="title-bd__icon title-bd__iconext" src="https://gtimg.wechatpay.cn/resource/xres/img/202212/ba994e8d9e219f2e231c648ae26f4d26_174x60.png" wx:if="{{is_boss}}"></image>
+                        <image class="title-bd__icon" src="https://gtimg.wechatpay.cn/resource/xres/img/202210/af84cc42aa69adc354efcf6e40071108_102x60.png" wx:else></image>
+                    </view>
+                    <view class="status-title-take status-title__num">
+                        <view class="status-title__hd">
+                            <view class="status-title__hd__item">
+                                <view class="status-title__hd__t">{{daily_seq_code||'----'}}</view>
+                            </view>
+                            <view class="status-title__hd__item" wx:if="{{table_no}}">
+                                <view class="status-title__hd__line"></view>
+                                <view class="status-title__hd__t">桌号 {{format.formatTable(table_no)}}</view>
+                            </view>
+                            <view class="status-title__hd__item">
+                                <view class="status-title__hd__line"></view>
+                                <view class="status-title__hd__t">{{is_instore_package?'打包带走':'店内就餐'}}</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="status-userInfo" wx:if="{{is_boss}}">
+                    <image class="status-userInfo__avatar" src="{{wx_head_img_url}}"></image>
+                    <view class="status-userInfo__name">{{wx_nickname}}</view>
+                    <view class="status-userInfo__info">
+                        <view bindtap="copyWechatName" class="status-userInfo__btn">复制微信名</view>
+                    </view>
+                </view>
+                <view class="status-hd__merchantInfos" wx:if="{{!is_boss&&mch_contact_phone}}">
+                    <view class="hd-merchantInfo__title">商家电话</view>
+                    <view bindtap="makePhoneCall" class="hd-merchantInfo__note">{{mch_contact_phone}}</view>
+                </view>
+                <view class="status-userInfo" wx:if="{{!is_boss&&mch_contact_wechat}}">
+                    <view class="status-metchantInfo__name">商家微信号</view>
+                    <view class="status-merchantInfo__wechat">{{mch_contact_wechat}}</view>
+                    <view bindtap="copyWechatId" class="status-merchantInfo__copy">复制</view>
+                </view>
+            </block>
+            <!-- 定点取货 -->
+            <block wx:if="{{order_type==='ORDER_TYPE_UNIFIED_SHIPPING'}}">
+                <view class="status-title__nums">
+                    <view class="status-title__bd">
+                        <image class="title-bd__icon title-bd__iconext" src="https://gtimg.wechatpay.cn/resource/xres/img/202210/7a5e98762b87eb3962a7ca5d1228e850_174x60.png"></image>
+                    </view>
+                    <view class="status-title-take status-title__num">
+                        <view class="status-title__hd">{{daily_seq_code||'----'}}</view>
+                        <view class="title-bd__info">{{unified_shipping_addr.distribution_time_text}}取货</view>
+                    </view>
+                </view>
+                <view class="status-userInfo" wx:if="{{is_boss}}">
+                    <image class="status-userInfo__avatar" src="{{wx_head_img_url}}"></image>
+                    <view class="status-userInfo__name">{{wx_nickname}}</view>
+                    <view class="status-userInfo__info">
+                        <view bindtap="copyWechatName" class="status-userInfo__btn">复制微信名</view>
+                        <view bindtap="makePhoneCall" class="status-userInfo__btn_ex">手机联系</view>
+                    </view>
+                </view>
+                <view class="status-hd__merchantInfo" wx:if="{{!is_boss&&mch_contact_phone}}">
+                    <view class="hd-merchantInfo__title">商家电话</view>
+                    <view bindtap="makePhoneCall" class="hd-merchantInfo__note">{{mch_contact_phone}}</view>
+                </view>
+                <view class="status-userInfo" wx:if="{{!is_boss&&mch_contact_wechat}}">
+                    <view class="status-metchantInfo__name">商家微信号</view>
+                    <view class="status-merchantInfo__wechat">{{mch_contact_wechat}}</view>
+                    <view bindtap="copyWechatId" class="status-merchantInfo__copy">复制</view>
+                </view>
+                <view class="status-hd__address">
+                    <view class="hd-address__title">
+                        <view class="address-title__text">取货点</view>
+                        <view bindtap="copyUnifiedAddress" class="address-title__copy" wx:if="{{is_boss}}">复制地址</view>
+                    </view>
+                    <view class="hd-address__address">{{unified_shipping_addr.address}}</view>
+                </view>
+            </block>
+            <!-- 是否能加入群 -->
+            <view bindtap="joinCustomerGroup" class="customer-base" wx:if="{{groupCodeReady&&can_join}}">
+                <view class="customer-base__l">
+                    <image class="customer-base__icon" src="https://wx.gtimg.com/resource/feuploader/202112/6fcd09081863c53791bb65e307b6779a_40x40.png"></image>
+                    <view class="customer-base__slogan">{{join_hint}}</view>
+                </view>
+                <view class="customer-base__r">入群</view>
+            </view>
+            <!-- 返回店铺首页  对顾客展示-->
+            <view bindtap="goIndex" class="status-bd__title" wx:if="{{!is_boss}}">
+                <view class="bd-title__text">{{mch_store_name}}</view>
+                <view class="bd-title__arrow"></view>
+            </view>
+            <!-- 对老板展示 -->
+            <view class="status-bd__title" wx:else>
+                <view class="bd-title__text">共{{total_num}}件商品</view>
+            </view>
+            <!-- 商品列表 -->
+            <view class="status-bd__cell">
+                <view class="bd-cell__cells" wx:for="{{goods_list}}" wx:key="spu_id">
+                    <image class="bd-cells__img" src="{{item.image_url||'https://act.weixin.qq.com/static/images/201905/6f6a490c865bf1344afe2814534a22fe.png'}}"></image>
+                    <view class="bd-cells__main">
+                        <view class="bd-cells__hd">
+                            <view class="bd-cells__hd_name">
+                                <view class="bd-cells__hd_flashsale" wx:if="{{item.is_flash_sale}}"></view>
+                                <view class="bd-cells__hd_hui" wx:elif="{{item.total_original_price}}"></view>
+                                <view>{{item.name}}</view>
+                            </view>
+                            <view class="bd-cells__attri" wx:if="{{item.spec_value_name||item.prop_value_name_list}}">{{format.getOrderProp(item.spec_value_name,item.prop_value_name_list)}}</view>
+                        </view>
+                        <view class="bd-cells__bd">x{{item.num}}</view>
+                    </view>
+                    <!-- 不存在优惠 -->
+                    <view class="bd-cells__ft" wx:if="{{!item.total_original_price}}">￥{{format.money(item.amount)}}</view>
+                    <!-- 优惠商品 -->
+                    <view class="bd-cells__ftsp" wx:else>
+                        <view class="ft__discount">￥{{format.money(item.amount)}}</view>
+                        <view class="ft__origin">￥{{format.money(item.total_original_price)}}</view>
+                    </view>
+                </view>
+                <!-- 优惠列表说明 -->
+                <view class="bd-cell__extra" wx:for="{{fee_list}}" wx:key="fee_type">
+                <!--  -->
+                    <view class="bd-extra__hd"> {{item.fee_name}} 
+                      <view class="fee-pop__box" wx:if="{{item.fee_category=='EN_ORDER_FEE_CATEGORY_PACKAGE'&&item.fee_calc_rule==='EN_ORDER_FEE_CALC_RULE_PACKAGE_BY_GOODS'}}">
+                              <view bindtap="clickPackageFeeTip" class="icon-info"></view>
+                              <view class="fee-pop" wx:if="{{showPackageFeeText}}">
+                                  <view class="fee-pop__main">
+                                      <view class="fee-pop__txt">包装费 = 商品包装费 X 商品数量</view>
+                                      <view catchtap="closePackageFeeTip" class="fee-pop__btn"></view>
+                                  </view>
+                              </view>
+                      </view>
+                    </view> 
+                    <view></view>
+                    <view class="bd-extra__ft" wx:if="{{item.fee_category==='EN_ORDER_FEE_CATEGORY_SHIPPING'&&freeDeliveryFee}}">
+                        <view>￥0.00</view>
+                        <view class="bd-extra__ft_des" wx:if="{{freeDeliveryFee}}">
+                            <view class="bd-extra__ft_des_hd">满额已免配送费</view>
+                            <view class="bd-extra__ft_des_bd">¥{{format.money(freeDeliveryFee)}}</view>
+                        </view>
+                    </view>
+                    <view class="bd-extra__ft {{item.fee_type==='EN_ORDER_FEE_TYPE_SUB'?'bd-extra__ftsub':''}}" wx:else>
+                        <view class="bd-extra__ftbody">
+                            <view class="subicon"></view>
+                            <view>￥{{format.money(item.fee_amount)}}</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <!-- 优惠合计明细 -->
+            <view class="status-bd__note">
+                <view class="detail-note__text">
+                    <block wx:if="{{format.getOrderDiscount(goods_list,fee_list,total_amount)>0}}">
+                        <view class="note-text__des">已优惠</view>
+                        <view class="note-text__info">￥{{format.getOrderDiscount(goods_list,fee_list,total_amount)}}，</view>
+                    </block>
+                    <view>合计</view>
+                    <view class="note-text__money">￥{{format.money(total_amount)}}</view>
+                </view>
+            </view>
+            <!-- 顾客留言 -->
+            <view class="status-bd__remarks" wx:if="{{customer_remark}}">
+                <view class="bd-remarks__main">
+                    <view class="remarks-main__title">备注</view>
+                    <view class="remarks-main__info">{{customer_remark}}</view>
+                </view>
+            </view>
+            <!-- 其他信息 -->
+            <view class="status-bd__detail">
+                <view class="bd-detail__title">其他信息</view>
+                <view class="bd-detail__cells">
+                    <view class="bd-detail__cell">
+                        <view class="bd-detailcell__title">订单编号</view>
+                        <view class="bd-detailcell__body">{{id}}</view>
+                    </view>
+                    <view class="bd-detail__cell">
+                        <view class="bd-detailcell__title">下单时间</view>
+                        <view class="bd-detailcell__body">{{order_create_time_text}}</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="status-ft">
+        <!-- 对老板展示 -->
+        <view class="status-hd__btnarea" wx:if="{{is_boss}}">
+            <button bindtap="drawOrderPic" class="status-hd__btn" hoverClass="status-hd__btn_hover">
+                <image class="status-hd__icon" src="https://act.weixin.qq.com/static/images/202009/4befc621b7aaf14324df613c3ab44991_72x72.png"></image>
+                <view class="status-hd__btn_text">生成订单图</view>
+            </button>
+            <button bindtap="signComplete" class="status-hd__btn status-hd__btn_ex" disabled="{{state==='SHELF_ORDER_STATE_CONFIRM'}}" hoverClass="status-hd__btn_hover">
+                <image class="status-hd__icon" src="https://act.weixin.qq.com/static/images/202011/16b5e32985b508c45e3f8768dcffcabc_63x60.png"></image>
+                <view class="status-hd__btn_text">{{state==='SHELF_ORDER_STATE_CONFIRM'?'已完成':'标记完成'}}</view>
+            </button>
+        </view>
+        <!-- 对顾客显示 -->
+        <button bindtap="sendOrderToMerchant" class="status-ft__btn" hoverClass="status-hd__btn_hover" openType="share" wx:if="{{!is_boss&&id}}">转发订单给商家</button>
+    </view>
+    <!-- 订单分享 -->
+    <!-- <order-share class="share-pic canvas" dailySeqCode="{{daily_seq_code}}" id="ordershare" isPay="{{payed}}" orderList="{{order_list}}" orderType="{{order_type}}" totalAmount="{{total_amount}}" totalNum="{{total_num}}"></order-share> -->
+    <!-- <half-screen bind:cancel="hideActivityHalfScreen" bind:confirm="gotoActivity" bind:hide="hideActivityHalfScreen" cancelText="{{infoHalfScreen.cancel_text||''}}" confirmText="{{infoHalfScreen.btn_text}}" show="{{isShowActivityHalfScreen}}" titleText="{{infoHalfScreen.title||''}}">
+        <view slot="custom_content">
+            <view class="activity-pop">
+                <image class="activity-pop__hd {{infoHalfScreen.icon?'':'activity-pop__hd_hidden'}}" src="{{infoHalfScreen.icon}}"></image>
+                <view class="activity-pop__bd" wx:if="{{infoHalfScreen.content}}"> {{infoHalfScreen.content}} </view>
+                <view class="activity-pop__ft" wx:if="{{infoHalfScreen.description}}"> {{infoHalfScreen.description}} </view>
+            </view>
+        </view>
+    </half-screen> -->
+    <!-- <half-screen bind:operateClick="hideGuide" show="{{isShowGuide}}" showOperateArea="{{true}}" titleText=" ">
+        <view slot="custom_content">
+            <view class="halfScreen-dialog__hd">
+                <image class="halfScreen-dialog__icon" src="https://act.weixin.qq.com/static/images/202009/d0e7a5ff5d8ba4ec22ad574c2cc580d8_81x81.png"></image>
+                <view class="halfScreen-dialog__title">订单已提交</view>
+                <view class="halfScreen-dialog__note">{{is_bind_printer?'商家已出单':'转发订单给商家，优先让商家看到订单'}}</view>
+            </view>
+            <view class="halfScreen-dialog__bd">
+                <view class="halfScreen-dialog__card">
+                    <image class="halfScreen-dialog__avatar" src="{{mch_wechat_head_img}}"></image>
+                    <view class="halfScreen-dialog__name">{{mch_wechat_nickname}}</view>
+                    <view bindtap="copyWechatName" class="halfScreen-dialog__choose">复制微信名</view>
+                </view>
+            </view>
+            <view class="halfScreen-dialog__ft">
+                <button class="halfScreen-dialog__btn" hoverClass="halfScreen-dialog__btn_hover" openType="share">转发订单给商家</button>
+                <view bindtap="showContact" class="halfScreen-dialog__link" wx:if="{{!isFriends}}">还没有商家微信</view>
+            </view>
+        </view>
+    </half-screen> -->
+    <!-- <half-screen customStyle="{{true}}" show="{{isShowContact}}">
+        <view class="custom_content" slot="custom_content">
+            <view class="contact-pop__head">
+                <image class="pop-head__avatar" src="{{mch_wechat_head_img}}"></image>
+                <view class="pop-head__nick">{{mch_wechat_nickname}}</view>
+            </view>
+            <view class="contact-pop__body">
+                <view class="pop-body__title">{{mch_contact_wechat?'商家微信号':'商家手机号码'}}</view>
+                <view class="pop-body__content">{{mch_contact_wechat||mch_contact_phone}}</view>
+            </view>
+            <view class="contact-pop__foot">
+                <view bindtap="hideContact" class="pop-foot__button pop-foot__cancel">取消</view>
+                <view bindtap="contactMerchant" class="pop-foot__button pop-foot__confirm">{{mch_contact_wechat?'复制微信号':'拨打手机号'}}</view>
+            </view>
+        </view>
+    </half-screen> -->
+</view>
+
+<!-- <view class="sharepic canvas">
+    <view class="status-canvas canvas">
+        <view class="status-hd_canvas {{payed?'':'status-hd_payoff'}} canvas">
+            <view class="status-hd__hd canvas">
+                <view class="hd-icon__canvas_status canvas" data-type="background-image"></view>
+                <view class="status-hd__right canvas">
+                    <view class="status-hd__title canvas" data-text="{{status_text}}" data-type="text">{{status_text}}<text class="hd-order__money canvas" data-text="￥{{format.money(total_amount)}}" data-type="text">￥{{format.money(total_amount)}}</text>
+                    </view>
+                    <view class="status-hd__note_canvas canvas" data-text="{{status_tips}}" data-type="text"> {{status_tips}} </view>
+                    <image class="status-hd__doneicon canvas" data-type="image" data-url="{{'https://act.weixin.qq.com/static/images/202011/2a28005e1cbb580e401edc71e8a8e450_228x228.png'}}" src="https://act.weixin.qq.com/static/images/202011/2a28005e1cbb580e401edc71e8a8e450_228x228.png" wx:if="{{state==='SHELF_ORDER_STATE_CONFIRM'}}"></image>
+                </view>
+            </view>
+        </view>
+        <view class="status-merchantInfo__borderBottom canvas" data-text="" data-type="text"></view>
+        <view class="status-bd__main canvas">
+            <block wx:if="{{order_type==='ORDER_TYPE_PICKUP'}}">
+                <view class="status-title__nums canvas">
+                    <view class="status-title__bd canvas">
+                        <image class="title-bd__icon title-bd__iconext canvas" data-type="image" data-url="{{'https://act.weixin.qq.com/resource/xres/img/202210/fe7c4175278efec524105a1e2aa7f131_174x60.png'}}" src="https://act.weixin.qq.com/resource/xres/img/202210/fe7c4175278efec524105a1e2aa7f131_174x60.png"></image>
+                    </view>
+                    <view class="status-title__num canvas">
+                        <view class="status-title__hd canvas" data-text="{{daily_seq_code||''}}" data-type="text">{{daily_seq_code||''}}</view>
+                        <view class="title-bd__info canvas" data-text="{{pickup_time_text}}自提" data-type="text">{{pickup_time_text}}自提</view>
+                    </view>
+                </view>
+                <view class="status-hd__lines canvas" data-text="" data-type="text"></view>
+                <view class="status-userInfo_canvas canvas">
+                    <view class="status-userInfo__name canvas" data-text="{{wx_nickname}}" data-type="text">{{wx_nickname}}</view>
+                </view>
+                <view class="status-merchantInfo__borderBottom canvas" data-text="" data-type="text"></view>
+            </block>
+            <block wx:if="{{order_type==='ORDER_TYPE_DELIVERY'}}">
+                <view class="status-title__nums canvas">
+                    <view class="status-title__bd canvas">
+                        <image class="title-bd__icon title-bd__iconext canvas" data-type="image" data-url="{{'https://act.weixin.qq.com/resource/xres/img/202210/ea06ea95b0c53f63fea0d2968df76e6d_174x60.png'}}" src="https://act.weixin.qq.com/resource/xres/img/202210/ea06ea95b0c53f63fea0d2968df76e6d_174x60.png"></image>
+                    </view>
+                    <view class="status-title-take status-title__num canvas">
+                        <view class="status-title__hd canvas" data-text="{{daily_seq_code||'----'}}" data-type="text">{{daily_seq_code||'----'}}</view>
+                    </view>
+                </view>
+                <view class="status-hd__lines canvas" data-text="" data-type="text"></view>
+                <view class="status-userInfo_canvas canvas">
+                    <view class="status-userInfo__name canvas" data-text="{{wx_nickname}}" data-type="text">{{wx_nickname}}</view>
+                </view>
+                <view class="status-merchantInfo__borderBottom canvas" data-text="" data-type="text"></view>
+                <view class="status-hd__address_canvas canvas">
+                    <view class="hd-address__title canvas">
+                        <view class="address-title__text canvas" data-text="外送地址" data-type="text">外送地址</view>
+                    </view>
+                    <view class="hd-address__note canvas">
+                        <view class="hd-address__address canvas" data-text="{{address.address}}" data-type="text">{{address.address}}</view>
+                        <view class="hd-address__main canvas">
+                            <view class="hd-address__name canvas" data-text="{{address.name}}" data-type="text">{{address.name}}</view>
+                            <view class="hd-address__phone canvas" data-text="{{address.phone}}" data-type="text">{{address.phone}}</view>
+                        </view>
+                    </view>
+                </view>
+                <view class="status-merchantInfo__borderBottom canvas" data-text="" data-type="text"></view>
+            </block>
+            <block wx:if="{{order_type==='ORDER_TYPE_INSTORE'}}">
+                <view class="status-title__nums canvas">
+                    <view class="status-title__bd canvas">
+                        <image class="title-bd__icon title-bd__iconext canvas" data-type="image" data-url="{{'https://act.weixin.qq.com/resource/xres/img/202212/ba994e8d9e219f2e231c648ae26f4d26_174x60.png'}}" src="https://act.weixin.qq.com/resource/xres/img/202212/ba994e8d9e219f2e231c648ae26f4d26_174x60.png"></image>
+                    </view>
+                    <view class="status-title-take status-title__num canvas">
+                        <view class="status-title__hd">
+                            <view class="status-title__hd__item">
+                                <view class="status-title__hd__t canvas" data-text="{{daily_seq_code||'----'}}" data-type="text">{{daily_seq_code||'----'}}</view>
+                            </view>
+                            <view class="status-title__hd__item" wx:if="{{table_no}}">
+                                <view class="status-title__hd__line canvas" data-text="" data-type="text"></view>
+                                <view class="status-title__hd__t canvas" data-text="桌号 {{format.formatTable(table_no)}}" data-type="text">桌号 {{format.formatTable(table_no)}}</view>
+                            </view>
+                            <view class="status-title__hd__item" wx:if="{{1}}">
+                                <view class="status-title__hd__line canvas" data-text="" data-type="text"></view>
+                                <view class="status-title__hd__t canvas" data-text="{{is_instore_package?'打包带走':'店内就餐'}}" data-type="text">{{is_instore_package?'打包带走':'店内就餐'}}</view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="status-hd__lines canvas" data-text="" data-type="text"></view>
+                <view class="status-userInfo_canvas canvas">
+                    <view class="status-userInfo__name canvas" data-text="{{wx_nickname}}" data-type="text">{{wx_nickname}}</view>
+                </view>
+                <view class="status-merchantInfo__borderBottom canvas" data-text="" data-type="text"></view>
+            </block>
+            <block wx:if="{{order_type==='ORDER_TYPE_UNIFIED_SHIPPING'}}">
+                <view class="status-title__nums canvas">
+                    <view class="status-title__bd canvas" data-text="" data-type="text">
+                        <image class="title-bd__icon title-bd__iconext canvas" data-type="image" data-url="{{'https://act.weixin.qq.com/resource/xres/img/202210/7a5e98762b87eb3962a7ca5d1228e850_174x60.png'}}" src="https://act.weixin.qq.com/resource/xres/img/202210/7a5e98762b87eb3962a7ca5d1228e850_174x60.png"></image>
+                    </view>
+                    <view class="status-title-take status-title__num canvas">
+                        <view class="status-title__hd canvas" data-text="{{daily_seq_code||'----'}}" data-type="text">{{daily_seq_code||'----'}}</view>
+                        <view class="title-bd__info canvas" data-text="{{unified_shipping_addr.distribution_time_text}}取货" data-type="text">{{unified_shipping_addr.distribution_time_text}}取货</view>
+                    </view>
+                </view>
+                <view class="status-hd__address status-hd__address-unified canvas" data-text="" data-type="text">
+                    <view class="status-hd__merchantInfo_ex canvas" data-text="" data-type="text">
+                        <view class="status-userInfo__name canvas" data-text="{{wx_nickname}}" data-type="text">{{wx_nickname}}</view>
+                    </view>
+                    <view class="hd-address__title canvas" data-text="" data-type="text">
+                        <view class="address-title__text canvas" data-text="取货点" data-type="text">取货点</view>
+                    </view>
+                    <view class="hd-address__address canvas" data-text="{{unified_shipping_addr.address}}" data-type="text">{{unified_shipping_addr.address}}</view>
+                    <view class="status-merchantInfo__borderBottom canvas" data-text="" data-type="text"></view>
+                </view>
+            </block>
+            <view class="status-bd__title canvas">
+                <view class="bd-title__text canvas" data-text="共{{total_num}}件商品" data-type="text">共{{total_num}}件商品</view>
+            </view>
+            <view class="status-bd__cell canvas">
+                <view class="bd-cell__cells canvas" wx:for="{{goods_list}}" wx:key="spu_id">
+                    <view class="bd-cells__main canvas">
+                        <image class="bd-cells__img canvas" data-type="image" data-url="{{item.image_url||'https://act.weixin.qq.com/static/images/201905/6f6a490c865bf1344afe2814534a22fe.png'}}" src="{{item.image_url||'https://act.weixin.qq.com/static/images/201905/6f6a490c865bf1344afe2814534a22fe.png'}}"></image>
+                        <view class="bd-cells__hd canvas">
+                            <view class="bd-cells__hd_name canvas">
+                                <view class="bd-cells__hd_flashsale canvas" data-base64="{{true}}" data-type="background-image" wx:if="{{item.is_flash_sale}}"></view>
+                                <view class="bd-cells__hd_hui canvas" data-base64="{{true}}" data-type="background-image" wx:elif="{{item.total_original_price}}"></view>
+                                <view class="canvas" data-text="{{item.name}}" data-type="text">{{item.name}}</view>
+                            </view>
+                            <view class="bd-cells__attri canvas" data-text="{{item.spec_value_name||format.getOrderProp(item.spec_value_name,item.prop_value_name_list)}}" data-type="text" wx:if="{{item.spec_value_name||item.prop_value_name_list}}">{{format.getOrderProp(item.spec_value_name,item.prop_value_name_list)}}</view>
+                        </view>
+                        <view class="bd-cells__bd canvas" data-text="x{{item.num}}" data-type="text">x{{item.num}}</view>
+                    </view>
+                    <view class="bd-cells__ftsp canvas" wx:if="{{!item.total_original_price}}">
+                        <view class="ft__price canvas" data-text="￥{{format.money(item.amount)}}" data-type="text">￥{{format.money(item.amount)}}</view>
+                    </view>
+                    <view class="bd-cells__ftsp canvas" wx:else>
+                        <view class="ft__discount canvas" data-text="￥{{format.money(item.amount)}}" data-type="text">￥{{format.money(item.amount)}}</view>
+                        <view class="ft__origin_canvas canvas" data-text="￥{{format.money(item.total_original_price)}}" data-type="text">￥{{format.money(item.total_original_price)}} <view class="ft__origin-line_canvas canvas" data-delay="10" data-text="" data-type="text"></view>
+                        </view>
+                    </view>
+                </view>
+                <view class="bd-cell__extra canvas" wx:for="{{fee_list}}" wx:key="fee_category">
+                    <view class="bd-extra__hd canvas" data-text="{{item.fee_name}}" data-type="text">{{item.fee_name}}</view>
+                    <view class="bd-extra__ft canvas" wx:if="{{item.fee_category==='EN_ORDER_FEE_CATEGORY_SHIPPING'&&freeDeliveryFee}}">
+                        <view class="canvas" data-text="￥0.00" data-type="text">￥0.00</view>
+                        <view class="bd-extra__ft_des canvas" wx:if="{{freeDeliveryFee}}">
+                            <view class="bd-extra__ft_des_hd canvas" data-text="满额已免配送费" data-type="text">满额已免配送费</view>
+                            <view class="bd-extra__ft_des_bd_canvas canvas" data-text="￥{{format.money(freeDeliveryFee)}}" data-type="text"> ￥{{format.money(freeDeliveryFee)}} <view class="bd-extra__ft_des_bd-line_canvas canvas" data-delay="10" data-text="" data-type="text"></view>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="bd-extra__ft {{item.fee_type==='EN_ORDER_FEE_TYPE_SUB'?'bd-extra__ftsub':''}} canvas" wx:else>
+                        <view class="bd-extra__ftbody canvas">
+                            <view class="subicon canvas" data-base64="1" data-type="background-image"></view>
+                            <view class="canvas" data-text="￥{{format.money(item.fee_amount)}}" data-type="text">￥{{format.money(item.fee_amount)}}</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view class="status-hd__lines canvas" data-text="" data-type="text"></view>
+            <view class="status-bd__note canvas">
+                <view class="detail-note__text canvas">
+                    <block wx:if="{{format.getOrderDiscount(goods_list,fee_list,total_amount)>0}}">
+                        <view class="note-text__des canvas" data-text="已优惠" data-type="text">已优惠</view>
+                        <view class="note-text__info canvas" data-text="￥{{format.getOrderDiscount(goods_list,fee_list,total_amount)}}，" data-type="text">￥{{format.getOrderDiscount(goods_list,fee_list,total_amount)}}，</view>
+                    </block>
+                    <view class="canvas" data-text="合计" data-type="text">合计</view>
+                    <view class="note-text__money canvas" data-text="￥{{format.money(total_amount)}}" data-type="text">￥{{format.money(total_amount)}}</view>
+                </view>
+            </view>
+            <view class="status-bd__remarks canvas" wx:if="{{customer_remark}}">
+                <view class="bd-remarks__mains canvas">
+                    <view class="remarks-main__title canvas" data-text="备注" data-type="text">备注</view>
+                    <view class="remarks-main__info canvas" data-text="{{customer_remark}}" data-type="text">{{customer_remark}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view> -->
+
+<!-- <block wx:if="{{isShowJoiningHalfScreen}}">
+    <view bindtap="hideJoiningHalfScreen" catchtouchmove="preventTouchMove" class="mask"></view>
+    <view catchtouchmove="preventTouchMove" class="qrCodeDialog {{animationClassActionSheet?'qrCodeDialog-on':''}}">
+        <view class="qrCodeDialog-hd">
+            <view class="qrCodeDialog-hd__title">长按识别加入顾客群</view>
+            <image bindtap="hideJoiningHalfScreen" class="qrCodeDialog-hd__close" src="https://act.weixin.qq.com/static/images/202008/731b31ffc03aa0439af131e8f11f0026_60x60.png"></image>
+        </view>
+        <view class="qrCodeDialog-bd">
+            <view bind:touchend="longPressTouchEnd" bind:touchstart="longPressTouchstart" class="qrCodeDialog-bd__img">
+                <image showMenuByLongpress class="qrCodeDialog-bd__qrcode" src="{{customerGroupQrCode}}"></image>
+            </view>
+            <view class="qrCodeDialog-bd__note">{{mch_store_name}}</view>
+        </view>
+    </view>
+</block> -->
+
+<!-- <canvas canvasId="orderStatus" class="order-status-canvas" style="width: {{canvasWidth}}px; height: {{canvasHeight}}px"></canvas> -->
+<!-- <announce></announce> -->
+<wxs module="format" src="../../wxs/format.wxs" />

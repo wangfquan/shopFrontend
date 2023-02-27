@@ -1,11 +1,9 @@
 <!-- <navigation color="#F5F5F5" mode="2" navbarZindex="999" text="确认订单"></navigation> -->
 <view class="detail">
     <view class="detail-hd">
-    <!-- 只有一个配送方式时 -->
         <view class="hd-offline" wx:if="{{tabList.length===1}}">
             <view class="detail-hd__offlineTitle">{{tabList[0].text}}</view>
         </view>
-        <!-- 多个tab配送方式 -->
         <view class="detail-hd__hd" wx:else>
             <view class="detail-hd__tab">
                 <view bindtap="changeTab" class="detail-tab__item {{tab===item.bit?'detail-tab__item_on':''}}" data-tab="{{item.bit}}" wx:for="{{tabList}}">
@@ -14,9 +12,7 @@
                 </view>
             </view>
         </view>
-        <!-- 内容框 -->
         <view class="detail-hd__bd">
-            <!-- 自提 -->
             <view class="detail-hd__pickup" wx:if="{{tab===2}}">
                 <view class="hd-pickup__cells">
                     <view bindtap="showMap" class="hd-pickup__cell" wx:if="{{mch_store_address}}">
@@ -42,7 +38,6 @@
                     </view>
                 </view>
             </view>
-            <!-- 外送 -->
             <block wx:if="{{tab===1}}">
                 <view class="detail-hd__address">
                     <view bindtap="goAddress" class="address-customer">
@@ -71,7 +66,6 @@
                 <view class="delivery-time" wx:if="{{isPreOrder}}">
                     <image class="delivery-time__icon" src="https://gtimg.wechatpay.cn/resource/xres/img/202209/a615b2776ed454de96441cf54c0eb099_32x32.png"></image> 订单将于{{nextBusinessTime}}后开始配送 </view>
             </block>
-            <!-- 堂食 -->
             <block wx:if="{{tab===4}}">
                 <view class="canteen" wx:if="{{isPreOrder}}">{{nextBusinessTime}}开始营业，暂时无法堂食</view>
                 <view class="detail-hd__pickup" wx:else>
@@ -93,7 +87,6 @@
                     </view>
                 </view>
             </block>
-            <!-- 自助取货 -->
             <view class="detail-hd__unified" wx:if="{{tab===8}}">
                 <view bindtap="selectUnifiedAddr" class="unified-tips {{unifiedAddrList.length>1?'':'unified-tips__finish'}}">
                     <view class="tips-title">取货点</view>
@@ -113,7 +106,6 @@
             </view>
         </view>
     </view>
-    <!-- 已选商品列表 -->
     <view class="detail-bd">
         <view class="detail-bd__main">
             <view class="detail-bd__title">共{{totalNum}}件商品</view>
@@ -221,7 +213,6 @@
             </view>
         </view>
     </view>
-    <!-- 合计金额 -->
     <view id="footer">
         <view class="detail-ft {{isIPhoneX?'footer-area':''}}">
             <view class="detail-ft__hd">

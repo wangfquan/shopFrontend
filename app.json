@@ -5,6 +5,7 @@
     "pages/logs/logs",
     "pages/qrcode/qrcode",
     "pages/shop/detail",
+    "pages/status/status",
     "pages/paySuccess/paySuccess",
     "pages/paying/paying"
   ],

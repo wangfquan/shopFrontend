@@ -1,6 +1,7 @@
 {
   "component": true,
   "usingComponents": {
+    "good-detail": "../../components/good-detail/detail",
     "single-good": "../../components/singlegood/singlegood",
     "shopping-cart": "../../components/shoppingcart/index"
   }

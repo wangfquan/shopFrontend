@@ -78,6 +78,7 @@
                 </scroll-view>
             </view>
         </view>
+        <!-- 结算项 -->
         <shopping-cart bind:addFromShoppingCart="addFromShoppingCart" bind:confirmDelete="confirmDelete" bind:minusFromShoppingCart="minusFromShoppingCart" bind:next="next" bind:switchShoppingCart="switchShoppingCart" business="{{business}}" id="bottom" isOpening="{{isOpening}}" isPreOrderTime="{{isPreOrderTime}}" lackNecessary="{{lackNecessary}}" shoppingCart="{{shoppingCart}}" supportOrderType="{{supportOrderType}}"></shopping-cart>
     </view>
 </view>
@@ -87,10 +88,10 @@
 <!-- <takeaway-share id="singleshare" shareGood="{{[curGood]}}" shareType="{{curGood.flash_sale_price?'flashsaleSingle':curGood.discount_price&&!curGood.has_spec?'discountSingle':'recommendSingle'}}" showShareCard="{{true}}"></takeaway-share>
 <takeaway-share merchantAvatar="{{merchantAvatar}}" merchantName="{{merchantName}}" shareGood="{{[curGood]}}" shareText="{{singleShareText}}" shareType="{{curGood.flash_sale_price?'flashsaleSingle':curGood.discount_price&&!curGood.has_spec?'discountSingle':'recommendSingle'}}" showShareMask="{{showShareSingleMask}}"></takeaway-share>
 <takeaway-share goodType="{{shareGoodsInfo.type}}" id="miniproshare" shareGood="{{shareGoodsInfo.list}}" shareType="minipro" showShareCard="{{true}}" totalNum="{{totalGoods}}"></takeaway-share>
-<takeaway-share goodType="{{shareGoodsInfo.type}}" merchantAvatar="{{merchantAvatar}}" merchantName="{{merchantName}}" shareGood="{{shareGoodsInfo.list}}" shareText="{{shareText}}" shareType="minipro" showShareMask="{{showShareMiniproMask}}" totalNum="{{totalGoods}}"></takeaway-share>
+<takeaway-share goodType="{{shareGoodsInfo.type}}" merchantAvatar="{{merchantAvatar}}" merchantName="{{merchantName}}" shareGood="{{shareGoodsInfo.list}}" shareText="{{shareText}}" shareType="minipro" showShareMask="{{showShareMiniproMask}}" totalNum="{{totalGoods}}"></takeaway-share> -->
 <good-detail bind:clickDetailDialogButton="clickDetailDialogButton" bind:hideGoodDetail="hideGoodDetail" curGood="{{curGood}}" isOpening="{{isOpening}}" shoppingCart="{{shoppingCart}}" showGoodDetail="{{showGoodDetail}}" showPage="{{showPage}}" wx:if="{{getDataDone}}"></good-detail>
-<soldout-dialog good="{{soldOutGood}}" showSoldOutDialog="{{showSoldOutDialog}}"></soldout-dialog>
-<base-half-screen bind:tapMask="closePreOrder" show="{{showPreOrder}}">
+<!-- <soldout-dialog good="{{soldOutGood}}" showSoldOutDialog="{{showSoldOutDialog}}"></soldout-dialog> -->
+<!-- <base-half-screen bind:tapMask="closePreOrder" show="{{showPreOrder}}">
     <view class="reserve" slot="custom_content">
         <image class="reserve__img" src="https://gtimg.wechatpay.cn/resource/xres/img/202211/e746b6ca539a27777164b3649dc91103_90x72.png"></image>
         <view class="reserve__bd">

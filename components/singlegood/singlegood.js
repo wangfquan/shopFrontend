@@ -43,15 +43,17 @@ Component({
         // });
     },
     methods: {
+      // 点击详情回调
         previewDetail: function(t) {
-            wx.navigateTo({
-              url: "/pages/paying/paying"
-            })
-            // this.triggerEvent("previewDetail", {
-            //     good: t.currentTarget.dataset.good,
-            //     cateindex: t.currentTarget.dataset.cateindex,
-            //     goodindex: t.currentTarget.dataset.goodindex
-            // });
+            // wx.navigateTo({
+            //   url: "/pages/shop/detail"
+            // })
+            console.log(t)
+            this.triggerEvent("previewDetail", {
+                good: t.currentTarget.dataset.good,
+                cateindex: t.currentTarget.dataset.cateindex,
+                goodindex: t.currentTarget.dataset.goodindex
+            });
         },
         add: function(t) {
             // this.data.isOpening && ((0, e.canBuyUtil)(this.data.good, 1, -1, this.data.shoppingCart) && ((0, 
